@@ -1,0 +1,140 @@
+{
+  "users": [
+    {
+      "user_id": "USR001",
+      "username": "john_doe",
+      "password": "0001",
+      "email": "john@example.com",
+      "wallet_address": "0x123456789abcdef",
+      "stake_amount": 1000,
+      "stake_start_date": "2025-02-09T12:00:00Z",
+      "stake_duration": "6 months",
+      "stake_rewards": 150,
+      "referral_code": "REF123",
+      "referred_by": "REF001",
+      "referrals": ["USR002", "USR003"],
+      "referral_earnings": 50,
+      "total_earnings": 200,
+      "total_ref_rev": 0,
+      "level": 1,
+      "status": "active",
+      "earnings_over_time": {
+        "2025-02-09": 0,
+        "2025-02-10": 10,
+        "2025-02-11": 25,
+        "2025-02-12": 40,
+        "2025-02-13": 60,
+        "2025-02-14": 90,
+        "2025-02-15": 150
+      },
+      "stake_amount_over_time": {
+        "2025-02-09": 1000,  
+        "2025-02-10": 1000,
+        "2025-02-11": 1100,
+        "2025-02-12": 1100,
+        "2025-02-13": 1200,
+        "2025-02-14": 1200,
+        "2025-02-15": 1300
+      },
+      "friends_earnings": {
+        "2025-02-09": 0,
+        "2025-02-10": 5,
+        "2025-02-11": 15,
+        "2025-02-12": 25,
+        "2025-02-13": 40,
+        "2025-02-14": 55,
+        "2025-02-15": 70
+      }
+    },
+    {
+      "user_id": "USR002",
+      "username": "alice_smith",
+      "password": "0002",
+      "email": "alice@example.com",
+      "wallet_address": "0xabcdef123456789",
+      "stake_amount": 500,
+      "stake_start_date": "2025-02-10T14:00:00Z",
+      "stake_duration": "3 months",
+      "stake_rewards": 60,
+      "referral_code": "REF456",
+      "referred_by": "REF123",
+      "referrals": ["USR004"],
+      "referral_earnings": 25,
+      "total_earnings": 85,
+      "total_ref_rev": 0,
+      "level": 2,
+      "status": "active",
+      "earnings_over_time": {
+        "2025-02-10": 0,
+        "2025-02-11": 5,
+        "2025-02-12": 15,
+        "2025-02-13": 30,
+        "2025-02-14": 50,
+        "2025-02-15": 85
+      },
+      "stake_amount_over_time": {
+        "2025-02-09": 1000,
+        "2025-02-10": 1000,
+        "2025-02-11": 1100,
+        "2025-02-12": 1100,
+        "2025-02-13": 1200,
+        "2025-02-14": 1200,
+        "2025-02-15": 1300
+      },
+      "friends_earnings": {
+        "2025-02-09": 0,
+        "2025-02-10": 5,
+        "2025-02-11": 15,
+        "2025-02-12": 25,
+        "2025-02-13": 40,
+        "2025-02-14": 55,
+        "2025-02-15": 70
+      }
+    },
+    {
+      "user_id": "USR003",
+      "username": "bob_martin",
+      "password": "0003",
+      "email": "bob@example.com",
+      "wallet_address": "0x789abcdef123456",
+      "stake_amount": 750,
+      "stake_start_date": "2025-02-11T10:30:00Z",
+      "stake_duration": "4 months",
+      "stake_rewards": 90,
+      "referral_code": "REF789",
+      "referred_by": "REF123",
+      "referrals": [],
+      "referral_earnings": 10,
+      "total_earnings": 100,
+      "total_ref_rev": 0,
+      "level": 2,
+      "status": "active",
+      "earnings_over_time": {
+        "2025-02-11": 0,
+        "2025-02-12": 8,
+        "2025-02-13": 20,
+        "2025-02-14": 35,
+        "2025-02-15": 60,
+        "2025-02-16": 100
+      },
+      "stake_amount_over_time": {
+        "2025-02-09": 1000,
+        "2025-02-10": 1000,
+        "2025-02-11": 1100,
+        "2025-02-12": 1100,
+        "2025-02-13": 1200,
+        "2025-02-14": 1200,
+        "2025-02-15": 1300
+      },
+      "friends_earnings": {
+        "2025-02-09": 0,
+        "2025-02-10": 5,
+        "2025-02-11": 15,
+        "2025-02-12": 25,
+        "2025-02-13": 40,
+        "2025-02-14": 55,
+        "2025-02-15": 70
+      }
+    }
+  ]
+}
