@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser, setLoading, setError } from "../store/slices/authSlice";
 import { fetchUserData } from "../store/thunks/authThunks";
 import type { RootState, AppDispatch } from "../store/store";
+import Navbar from "../components/Navbar";
 
 interface User {
   id: string;
@@ -23,7 +24,9 @@ interface ApiResponse {
 
 export default function SignIn() {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error, user } = useSelector((state: RootState) => state.auth);
+  const { loading, error, user } = useSelector(
+    (state: RootState) => state.auth
+  );
   const [initialLoad, setInitialLoad] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,42 +37,41 @@ export default function SignIn() {
     setInitialLoad(false);
     dispatch(setLoading(true));
     dispatch(setError(null));
-    window.location.href = 'http://localhost:5002/api/auth/google';
+    window.location.href = "http://localhost:5002/api/auth/google";
   };
 
   const handleXLogin = () => {
     setInitialLoad(false);
     dispatch(setLoading(true));
     dispatch(setError(null));
-    window.location.href = 'http://localhost:5002/api/auth/x';
+    window.location.href = "http://localhost:5002/api/auth/x";
   };
 
   useEffect(() => {
     // Check if this is a redirect from OAuth
     const checkOAuthAuth = async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const isGoogleAuth = urlParams.get('google');
-      const isXAuth = urlParams.get('x');
-      
+      const isGoogleAuth = urlParams.get("google");
+      const isXAuth = urlParams.get("x");
+
       if (isGoogleAuth || isXAuth) {
         try {
-          
           await dispatch(fetchUserData());
-          navigate('/dashboard');
+          navigate("/dashboard");
         } catch (error) {
-          console.error('Error fetching user data after OAuth auth:', error);
-          dispatch(setError('Failed to complete authentication'));
+          console.error("Error fetching user data after OAuth auth:", error);
+          dispatch(setError("Failed to complete authentication"));
         }
       }
       setInitialLoad(false);
     };
-    
+
     checkOAuthAuth();
   }, [dispatch, navigate]);
 
   useEffect(() => {
     if (!initialLoad && user) {
-      navigate('/dashboard');
+      navigate("/dashboard");
     }
   }, [user, navigate, initialLoad]);
 
@@ -137,11 +139,14 @@ export default function SignIn() {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-black">
-      <div className="bg-black p-8 rounded-2xl shadow-lg w-96 text-white">
+    <div className="h-screen bg-black">
+      <Navbar />
+      <div className="bg-black p-8 rounded-2xl shadow-lg w-96 mx-auto mt-10 text-white">
         <h2 className="text-2xl font-semibold mb-4 text-center">Sign In</h2>
 
-        {!initialLoad && error && <p className="text-red-500 text-center mb-4">{error}</p>}
+        {!initialLoad && error && (
+          <p className="text-red-500 text-center mb-4">{error}</p>
+        )}
 
         <div className="mb-4">
           <label className="block mb-1 text-gray-300">Email</label>
@@ -184,28 +189,26 @@ export default function SignIn() {
         <div className="my-4 text-center text-gray-400">or continue with</div>
 
         <div className="flex gap-4">
-          <button 
+          <button
             onClick={handleGoogleLogin}
-            className="w-full bg-white text-black hover:bg-gray-200 font-semibold py-2 rounded-lg flex items-center justify-center gap-2"
-          >
-            <img 
-              src="https://www.google.com/favicon.ico" 
-              alt="Google" 
+            className="w-full bg-white text-black hover:bg-gray-200 font-semibold py-2 rounded-lg flex items-center justify-center gap-2">
+            <img
+              src="https://www.google.com/favicon.ico"
+              alt="Google"
               className="w-5 h-5"
             />
             Google
           </button>
-          <button 
+          <button
             onClick={handleXLogin}
-            className="w-full bg-blue-600 text-white hover:bg-blue-700 font-semibold py-2 rounded-lg"
-          >
+            className="w-full bg-blue-600 text-white hover:bg-blue-700 font-semibold py-2 rounded-lg">
             X
           </button>
         </div>
 
         <p className="mt-4 text-center text-gray-400">
           Don't have an account?{" "}
-          <Link to="/" className="text-yellow-400 hover:underline">
+          <Link to="/signup" className="text-yellow-400 hover:underline">
             Register here
           </Link>
         </p>

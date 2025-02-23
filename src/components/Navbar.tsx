@@ -13,13 +13,15 @@ const Navbar = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}>
-        <motion.img
-          src={Logo}
-          alt="logo"
-          className="w-10 md:w-auto"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 300 }}
-        />
+        <Link to="/">
+          <motion.img
+            src={Logo}
+            alt="logo"
+            className="w-10 md:w-auto"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          />
+        </Link>
 
         {/* Mobile Menu Button */}
         <motion.button

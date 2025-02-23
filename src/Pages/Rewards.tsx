@@ -115,7 +115,7 @@ const Rewards = () => {
   if (!user) return null;
 
   return (
-    <div className="flex bg-white pb-16">
+    <div className="flex h-screen bg-white pb-16">
       <Aside />
 
       <main className="flex-1 p-6">
@@ -147,7 +147,7 @@ const Rewards = () => {
                         </h3>
                         <h1>invite friends</h1>
                         <p className="text-sm text-gray-600">
-                          {tier.minReferrals} referrals required
+                          {referralCount} - {tier.minReferrals} referrals required
                         </p>
                       </div>
                     </div>
