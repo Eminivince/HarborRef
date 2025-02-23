@@ -37,9 +37,13 @@ connectDB()
 
 // Middleware
 app.use(rateLimiter);
+const FRONTEND_URL = process.env.NODE_ENV === 'production'
+  ? 'https://harbor-r.vercel.app'
+  : 'http://localhost:5174';
+
 app.use(
   cors({
-    origin: "http://localhost:5174",
+    origin: FRONTEND_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

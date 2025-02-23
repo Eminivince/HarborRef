@@ -149,14 +149,14 @@ export default function SignIn() {
         )}
 
         <div className="mb-4">
-          <label className="block mb-1 text-gray-300">Email</label>
+          <label className="block mb-1 text-gray-300">Email/Username</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700
               focus:outline-none focus:ring-2 focus:ring-yellow-400"
-            placeholder="johndoe@gmail.com"
+            placeholder="Enter email or username"
           />
         </div>
 
