@@ -29,9 +29,9 @@ const Homepage = () => {
   };
 
   return (
-    <div className="text-white pt-6 pb-20  bg-[radial-gradient(circle_at_top_left,rgba(234,179,8,0.15)_0%,transparent_50%),radial-gradient(circle_at_bottom_right,rgba(234,179,8,0.15)_0%,transparent_50%)] bg-cover bg-center bg-no-repeat">
+    <div className="text-white pb-20  bg-[radial-gradient(circle_at_top_left,rgba(234,179,8,0.15)_0%,transparent_50%),radial-gradient(circle_at_bottom_right,rgba(234,179,8,0.15)_0%,transparent_50%)] bg-cover bg-center bg-no-repeat">
       <Navbar />
-      <div className="mb-[280px] px-4 md:px-0">
+      <div className="px-4 md:px-0">
         <div className="text-center w-full md:w-[612px] mx-auto mt-20 md:mt-52">
           <h1 className="text-4xl md:text-[64px] md:w-[612px] mx-auto">
             Stake Your Crypto, Grow Your Network, Earn More Rewards.
@@ -52,7 +52,7 @@ const Homepage = () => {
       </div>
 
       {/* STAKING GUIDE */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mt-[140px] w-[90%] md:w-[60%] mx-auto px-4 md:px-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mt-[90px] w-[90%] md:w-[60%] mx-auto px-4 md:px-0">
         <div className="w-full border rounded-2xl p-6 md:p-10">
           <h1 className="text-2xl">Staking Options</h1>
           <div className="mt-7">
@@ -81,10 +81,10 @@ const Homepage = () => {
             </div>
           </div>
         </div>
-        <div className="text-4xl md:text-[80px] text-center md:text-left">
+        <div className="text-4xl md:text-[80px] mt-10 text-center md:text-left">
           STAKING <br /> GUIDE
         </div>
-        <div className="p-4 md:p-8 text-xl md:text-2xl opacity-70 mt-8 md:mt-14">
+        <div className="py-4 md:p-8 md:text-2xl opacity-70 md:mt-14 text-center">
           <h1>Lorem ipsum dolor sit amet.</h1>
           <h1>Lorem ipsum dolor sit amet amet lu.</h1>
           <h1>Lorem ipsum dolor sit amet amet lu.</h1>
@@ -109,7 +109,7 @@ const Homepage = () => {
       </div>
 
       {/* ACCORDION SECTION */}
-      <div className="w-[90%] md:w-1/2 mt-28 mx-auto px-4 md:px-0">
+      <div className="w-[90%] md:w-1/2 mt-10 mx-auto px-4 md:px-0">
         <h1 className="text-center mb-10 text-3xl">FAQ</h1>
         {topics.map((topic, index) => (
           <div
@@ -140,8 +140,8 @@ const Homepage = () => {
       </div>
 
       {/* ABOUT US SECTION */}
-      <div className="w-[90%] md:w-[40%] mx-auto mt-28 text-center px-4 md:px-0">
-        <h1 className="text-2xl">About Us</h1>
+      <div className="w-[90%] md:w-[40%] mx-auto mt-16 text-center px-4 md:px-0">
+        <h1 className="text-2xl">ABOUT US</h1>
         <img className="w-24 md:w-32 mx-auto my-4" src={HBR} alt="" />
         <p className="w-full md:w-[70%] mx-auto text-justify">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae ratione
@@ -154,7 +154,7 @@ const Homepage = () => {
       </div>
 
       {/* FOOTER Section */}
-      <div className="px-6 md:px-20">
+      <footer className="px-6 md:px-20">
         <div className="flex items-center space-x-4 mt-32 mb-10">
           <img src={Logo} alt="" className="w-8 md:w-auto" />
           <h1 className="text-2xl">Harbor</h1>
@@ -179,7 +179,7 @@ const Homepage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </footer>
     </div>
   );
 };
