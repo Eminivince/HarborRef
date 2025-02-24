@@ -6,10 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store/store";
 import { fetchUserData } from "../store/thunks/authThunks";
-import axios from "axios";
-// import { useDispatch as useDispatchRedux } from "react-redux";
+import axiosInstance from "../config/axiosConfig";
 import type { AppDispatch } from "../store/store";
-import { API_BASE_URL } from "../config/api";
 
 // Import your layout components
 import Aside from "../components/Aside";
@@ -49,26 +47,26 @@ const Dashboard: React.FC = () => {
   // Handle authentication and navigation
   useEffect(() => {
     const checkAuth = async () => {
-      if (!loading && !user) {
-        try {
+      try {
+        if (!user) {
           await dispatch(fetchUserData());
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          navigate("/signin");
         }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setChartLoading(false);
+        navigate("/signin");
       }
     };
     checkAuth();
-  }, [user, loading, navigate, dispatch]);
+  }, [user, navigate, dispatch]);
 
   // Fetch chart data
   useEffect(() => {
     const fetchChartData = async () => {
       if (!user) return;
       try {
-        const response = await axios.get<ChartData>(
-          `${API_BASE_URL}/api/user/chart-data`,
-          { withCredentials: true }
+        const response = await axiosInstance.get<ChartData>(
+          '/api/user/chart-data'
         );
         setChartData(response.data);
       } catch (error) {

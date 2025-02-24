@@ -21,6 +21,7 @@ import { useDispatch } from "react-redux";
 import { fetchUserData } from './store/thunks/authThunks';
 import type { AppDispatch } from './store/store';
 import Rewards from "./Pages/Rewards";
+import axiosInstance from "./config/axiosConfig";
 
 const queryClient = new QueryClient();
 
@@ -53,7 +54,11 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchUserData());
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      dispatch(fetchUserData());
+    }
   }, [dispatch]);
 
   return (

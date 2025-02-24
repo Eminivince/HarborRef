@@ -1,4 +1,4 @@
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import InnerNav from "../components/InnerNav";
 import Aside from "../components/Aside";
 import DoneMedal from "../assets/colormedal.png";
@@ -6,7 +6,7 @@ import UndoneMedal from "../assets/medalbw.png";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../config/api";
+import axiosInstance from "../config/axiosConfig";
 
 interface TierData {
   minReferrals: number;
@@ -36,20 +36,11 @@ const Rewards = () => {
   }, [user]);
 
   const fetchEligibility = async () => {
+    console.log(user);
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/claims/eligibility`,
-        {
-          credentials: "include",
-        }
-      );
-      console.log(response);
-      if (!response.ok) throw new Error("Failed to fetch eligibility");
-
-      const data = await response.json();
-      setEligibleTiers(data.eligibleTiers);
-      setReferralCount(data.referralCount);
-      console.log(referralCount);
+      const response = await axiosInstance.get("/api/claims/eligibility");
+      setEligibleTiers(response.data.eligibleTiers);
+      setReferralCount(response.data.referralCount);
       setTotalEarnings(user?.total_ref_rev || 0);
       setIsLoading(false);
     } catch (error) {
@@ -60,19 +51,10 @@ const Rewards = () => {
 
   const handleClaim = async (tierIndex: number) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/claims/claim`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tierIndex }),
+      const response = await axiosInstance.post("/api/claims/claim", {
+        tierIndex,
       });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to claim reward");
-      }
-
-      const result = await response.json();
-      setTotalEarnings(result.newTotal);
+      setTotalEarnings(response.data.newTotal);
 
       // Refresh eligibility after successful claim
       await fetchEligibility();
@@ -81,7 +63,7 @@ const Rewards = () => {
       if (error instanceof Error) {
         alert(error.message);
       } else {
-        alert('An error occurred while claiming the reward');
+        alert("An error occurred while claiming the reward");
       }
     }
   };
@@ -116,7 +98,7 @@ const Rewards = () => {
   if (!user) return null;
 
   return (
-    <div className="flex md:h-screen bg-white pb-16">
+    <div className="flex md:h-screen min-h-screen bg-white pb-16">
       <Aside />
 
       <main className="flex-1 p-6">
@@ -148,7 +130,8 @@ const Rewards = () => {
                         </h3>
                         <h1>invite friends</h1>
                         <p className="text-sm text-gray-600">
-                          {referralCount} - {tier.minReferrals} referrals required
+                          {referralCount} - {tier.minReferrals} referrals
+                          required
                         </p>
                       </div>
                     </div>

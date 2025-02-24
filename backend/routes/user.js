@@ -8,12 +8,23 @@ const User = require('../models/HarborUser');
  * GET /api/user/me
  * Protected route that returns the currently logged-in user's data.
  */
-router.get("/me", (req, res) => {
+router.get("/me", async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ error: "Unauthorized" });
   }
-  const { passwordHash, ...safeUserData } = req.user.toObject();
-  res.json(safeUserData);
+
+  try {
+    const user = await User.findOne({ user_id: req.user.user_id });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    
+    const { passwordHash, ...safeUserData } = user.toObject();
+    res.json(safeUserData);
+  } catch (error) {
+    console.error('Error fetching user data:', error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 /**

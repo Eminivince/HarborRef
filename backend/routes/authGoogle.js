@@ -1,6 +1,7 @@
 // backend/routes/authGoogle.js
 const express = require("express");
 const passport = require("passport");
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 // Step 1: Kick off Google login
@@ -47,13 +48,31 @@ router.get(
           // Clear the stored referral code
           delete req.session.referralCode;
         }
-        res.redirect("http://localhost:5173/dashboard");
+
+        // Generate JWT token
+        const token = jwt.sign(
+          { 
+            userId: req.user._id,
+            user_id: req.user.user_id,
+            email: req.user.email,
+            username: req.user.username
+          }, 
+          process.env.JWT_SECRET, 
+          { expiresIn: '24h' }
+        );
+
+        // Redirect with token
+        const redirectUrl = process.env.NODE_ENV === 'production' 
+          ? `https://harbor-r.vercel.app/dashboard?token=${token}` 
+          : `http://localhost:5173/dashboard?token=${token}`;
+        
+        res.redirect(redirectUrl);
       } catch (error) {
-        console.error("Error processing referral:", error);
-        res.redirect("http://localhost:5173/dashboard");
+        console.error("Error processing authentication:", error);
+        res.redirect(process.env.NODE_ENV === 'production' ? 'https://harbor-r.vercel.app/signin' : 'http://localhost:5173/signin');
       }
     } else {
-      res.redirect("http://localhost:5173/signin");
+      res.redirect(process.env.NODE_ENV === 'production' ? 'https://harbor-r.vercel.app/signin' : 'http://localhost:5173/signin');
     }
   }
 );

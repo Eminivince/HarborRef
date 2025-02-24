@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/slices/authSlice";
 import { API_BASE_URL } from "../config/api";
+import { removeAuthToken } from "../utils/auth";
 
 // const config = getDefaultConfig({
 //   appName: "My RainbowKit App",
@@ -27,6 +28,7 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(user);
     if (user?.username) {
       setUsername(user.username);
     }
@@ -35,19 +37,20 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
   const handleLogout = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
-        method: 'POST',
-        credentials: 'include',
+        method: "POST",
+        credentials: "include",
       });
-  
+
       if (response.ok) {
         dispatch(setUser(null));
+        removeAuthToken();
         localStorage.removeItem("authenticatedUser");
         navigate("/signin");
       } else {
-        console.error('Logout failed');
+        console.error("Logout failed");
       }
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error("Error during logout:", error);
     }
   };
 

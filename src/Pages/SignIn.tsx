@@ -8,6 +8,7 @@ import { fetchUserData } from "../store/thunks/authThunks";
 import type { RootState, AppDispatch } from "../store/store";
 import Navbar from "../components/Navbar";
 import { API_BASE_URL } from "../config/api";
+import { setAuthToken } from "../utils/auth";
 
 interface User {
   id: string;
@@ -41,12 +42,12 @@ export default function SignIn() {
     window.location.href = `${API_BASE_URL}/api/auth/google`;
   };
 
-  const handleXLogin = () => {
-    setInitialLoad(false);
-    dispatch(setLoading(true));
-    dispatch(setError(null));
-    window.location.href = `${API_BASE_URL}/api/auth/x`;
-  };
+  // const handleXLogin = () => {
+  //   setInitialLoad(false);
+  //   dispatch(setLoading(true));
+  //   dispatch(setError(null));
+  //   window.location.href = `${API_BASE_URL}/api/auth/x`;
+  // };
 
   useEffect(() => {
     // Check if this is a redirect from OAuth
@@ -102,17 +103,29 @@ export default function SignIn() {
 
       console.log("[handleLogin] Login API response:", res.data);
       console.log("[handleLogin] Response status:", res.data.user);
-      console.log("[handleLogin] Response status:", res.data.user_id);
+      console.log("[handleLogin] Response status:", res.data.user?.user_id);
 
-      if (res.data.message === "Logged in successfully" && res.data.user_id) {
+      if (
+        res.data.message === "Logged in successfully" &&
+        res.data.user?.user_id
+      ) {
         console.log("[handleLogin] Login successful, setting user data");
-        dispatch(setUser({ id: res.data.user_id })); // Pass an object with id property instead of just the string
+        // Store the JWT token
+        if (res.data.token) {
+          setAuthToken(res.data.token);
+        }
+        dispatch(setUser(res.data.user));
         console.log(
           "[handleLogin] User data set, fetching additional user data"
         );
-        await dispatch(fetchUserData());
-        console.log("[handleLogin] Navigating to dashboard");
-        navigate("/dashboard");
+        try {
+          await dispatch(fetchUserData());
+          console.log("[handleLogin] Navigating to dashboard");
+          navigate("/dashboard");
+        } catch (error) {
+          console.error("[handleLogin] Error fetching user data:", error);
+          dispatch(setError("Error fetching user data"));
+        }
       } else {
         console.warn("[handleLogin] Unexpected server response:", res.data);
         dispatch(setError("Invalid response from server"));
@@ -187,7 +200,9 @@ export default function SignIn() {
           {loading ? "Signing In..." : "Sign In"}
         </button>
 
-        <div className="my-4 mt-8 text-center text-gray-400">or continue with</div>
+        <div className="my-4 mt-8 text-center text-gray-400">
+          or continue with
+        </div>
 
         <div className="flex gap-4">
           <button
@@ -200,7 +215,6 @@ export default function SignIn() {
             />
             Google
           </button>
-          
         </div>
 
         <p className="mt-4 text-center text-gray-400">

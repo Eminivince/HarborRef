@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axiosInstance from "../config/axiosConfig";
 import Aside from "../components/Aside";
 // import InnerNav from "../components/InnerNav";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
-import { API_BASE_URL } from "../config/api";
 
 // We'll define an interface for the *referred* users we fetch
 interface ReferredUser {
@@ -35,10 +34,9 @@ const Referral: React.FC = () => {
       } else {
         // no referral code => ask backend to generate one
         try {
-          const res = await axios.post(
-            `${API_BASE_URL}/api/user/referral`,
-            {},
-            { withCredentials: true }
+          const res = await axiosInstance.post(
+            "/api/user/referral",
+            {}
           );
           setReferralCode(res.data.referral_code);
         } catch (error) {
@@ -55,9 +53,8 @@ const Referral: React.FC = () => {
     const fetchReferrals = async () => {
       if (!user) return;
       try {
-        const res = await axios.get<ReferredUser[]>(
-          `${API_BASE_URL}/api/user/referrallist`,
-          { withCredentials: true }
+        const res = await axiosInstance.get<ReferredUser[]>(
+          "/api/user/referrallist"
         );
         setReferredUsers(res.data);
       } catch (error) {
@@ -97,9 +94,7 @@ const Referral: React.FC = () => {
         <div className="my-7 flex flex-col md:flex-row items-start md:items-center justify-between space-y-4 md:space-y-0">
           <h1>Invite Link</h1>
           <p className="border w-full md:w-fit p-3 rounded break-all">
-            {referralCode && API_BASE_URL == "http://localhost:5002"
-              ? `http://localhost:5173/signup?code=${referralCode}`
-              : `https://harbor-r.vercel.app/signup?code=${referralCode}`}
+            {`${window.location.origin}/signup?code=${referralCode}`}
           </p>
           <button
             className="bg-gray-500 w-full md:w-fit p-3 rounded text-center"

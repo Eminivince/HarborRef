@@ -6,9 +6,15 @@ const User = require("../models/HarborUser");
 // POST /api/user/referral
 // Generates a unique referral code if user doesn't have one already
 router.post("/referral", async (req, res) => {
-  console.log(`[${new Date().toISOString()}] Referral code generation attempt - User ID: ${req.user?._id}`);
+  console.log(
+    `[${new Date().toISOString()}] Referral code generation attempt - User ID: ${
+      req.user?._id
+    }`
+  );
   if (!req.user) {
-    console.log(`[${new Date().toISOString()}] Unauthorized referral code generation attempt`);
+    console.log(
+      `[${new Date().toISOString()}] Unauthorized referral code generation attempt`
+    );
     return res.status(401).json({ error: "Unauthorized" });
   }
 
@@ -20,7 +26,11 @@ router.post("/referral", async (req, res) => {
 
     // If userDoc already has a referral_code, return it
     if (userDoc.referral_code) {
-      console.log(`[${new Date().toISOString()}] Existing referral code found for user ${req.user._id}: ${userDoc.referral_code}`);
+      console.log(
+        `[${new Date().toISOString()}] Existing referral code found for user ${
+          req.user._id
+        }: ${userDoc.referral_code}`
+      );
       return res.json({ referral_code: userDoc.referral_code });
     }
 
@@ -30,8 +40,12 @@ router.post("/referral", async (req, res) => {
       "ref_" + Math.random().toString(36).slice(2, 8).toUpperCase();
     userDoc.referral_code = uniqueCode;
     await userDoc.save();
-    
-    console.log(`[${new Date().toISOString()}] New referral code generated for user ${req.user._id}: ${uniqueCode}`);
+
+    console.log(
+      `[${new Date().toISOString()}] New referral code generated for user ${
+        req.user._id
+      }: ${uniqueCode}`
+    );
     return res.json({ referral_code: userDoc.referral_code });
   } catch (error) {
     console.error("Error generating referral code:", error);
@@ -42,15 +56,21 @@ router.post("/referral", async (req, res) => {
 // GET /api/user/referrals
 // Returns the list of users that the current logged-in user has referred.
 router.get("/referrallist", async (req, res) => {
-  console.log(`[${new Date().toISOString()}] Referral list request - User ID: ${req.user?._id}`);
+  console.log(
+    `[${new Date().toISOString()}] Referral list request - User ID: ${
+      req.user?.userId
+    }`
+  );
   if (!req.user) {
-    console.log(`[${new Date().toISOString()}] Unauthorized referral list request`);
+    console.log(
+      `[${new Date().toISOString()}] Unauthorized referral list request`
+    );
     return res.status(401).json({ error: "Unauthorized" });
   }
 
   try {
     // 1) Find the logged-in user's document
-    const userDoc = await User.findById(req.user._id).select("referrals");
+    const userDoc = await User.findById(req.user?.userId).select("referrals");
     if (!userDoc) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -63,7 +83,11 @@ router.get("/referrallist", async (req, res) => {
     // ^ exclude sensitive fields
 
     // Return the list
-    console.log(`[${new Date().toISOString()}] Retrieved ${referredUsers.length} referrals for user ${req.user._id}`);
+    console.log(
+      `[${new Date().toISOString()}] Retrieved ${
+        referredUsers.length
+      } referrals for user ${req.user._id}`
+    );
     return res.json(referredUsers);
   } catch (error) {
     console.error("Error fetching referrals:", error);

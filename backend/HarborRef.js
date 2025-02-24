@@ -2,21 +2,18 @@
 require("dotenv").config();
 const express = require("express");
 const passport = require("passport");
-const session = require("express-session");
-const cookieSession = require("cookie-session"); // alternative to express-session
 const cors = require("cors");
 const mongoose = require("mongoose");
-// const connectDB = require("./config/db");
 const localAuthRoutes = require("./routes/authLocal");
 const googleAuthRoutes = require("./routes/authGoogle");
+const userRoutes = require("./routes/user");
+const referralCodeRoutes = require("./routes/referralCode");
+const claimsRoutes = require("./routes/claims");
 const logoutRoutes = require("./routes/logout");
-// const xAuthRoutes = require("./routes/authX"); // import X auth routes
-const userRoutes = require("./routes/user"); // import the user router
-const referralCodeRoutes = require("./routes/referralCode"); // import the user router
-const claimsRoutes = require("./routes/claims"); // import the claims router
-require("./config/passport"); // so the passport strategies get loaded
 const errorHandler = require("./middleware/errorHandler");
 const rateLimiter = require("./middleware/rateLimiter");
+const jwtAuth = require("./middleware/jwtAuth");
+const verifyToken = require("./middleware/jwtAuth");
 
 const app = express();
 const PORT = process.env.PORT || 5002;
@@ -54,35 +51,10 @@ app.use(
 );
 app.use(express.json());
 
-// SESSION setup (choose one of these)
-// app.use(
-//   cookieSession({
-//     name: "mySession",
-//     keys: [process.env.SESSION_SECRET],
-//     maxAge: 24 * 60 * 60 * 1000, // 1 day
-//   })
-// );
+// Set trust proxy
+app.set("trust proxy", 1);
 
-// OR if you want to use express-session (with a store):
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    proxy: true,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      maxAge: 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      domain: process.env.NODE_ENV === 'production' ? 'glacial-river-04858-a83417b9c48e.herokuapp.com' : 'localhost'
-    }
-  })
-);
-
-// Initialize Passport
-app.use(passport.initialize());
-app.use(passport.session());
+// Parse JSON bodies
 app.use(express.json());
 
 // Routes
@@ -90,19 +62,16 @@ app.use("/api/auth", localAuthRoutes);
 app.use("/api/auth", googleAuthRoutes);
 app.use("/api/auth", logoutRoutes); // Add logout routes
 // app.use("/api/auth", xAuthRoutes); // mount X auth routes
-app.use("/api/user", userRoutes);
-app.use("/api/user", referralCodeRoutes);
-app.use("/api/claims", claimsRoutes);
+app.use("/api/user", verifyToken, userRoutes);
+app.use("/api/user", verifyToken, referralCodeRoutes);
+app.use("/api/claims", verifyToken, claimsRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the Backend");
 });
 
 // Protected route example
-app.get("/api/protected", (req, res) => {
-  if (!req.user) {
-    return res.status(401).send("Unauthorized");
-  }
+app.get("/api/protected", verifyToken, (req, res) => {
   res.json({ message: "This is protected data", user: req.user });
 });
 

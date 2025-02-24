@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../config/api";
+import axiosInstance from "../config/axiosConfig";
 
 interface ReferralUser {
   _id: string;
@@ -40,15 +40,8 @@ const Network = () => {
 
   const fetchReferralTree = async () => {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/user/referraltree`,
-        {
-          credentials: "include",
-        }
-      );
-      if (!response.ok) throw new Error("Failed to fetch referral tree");
-      const data = await response.json();
-      setReferralTree(data);
+      const response = await axiosInstance.get("/api/user/referraltree");
+      setReferralTree(response.data);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching referral tree:", error);

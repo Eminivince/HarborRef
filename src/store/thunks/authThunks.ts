@@ -1,7 +1,6 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios, { AxiosError } from "axios";
-import { setUser, setLoading, setError } from "../slices/authSlice";
-import { API_BASE_URL } from "../../config/api";
+import axiosInstance from '../../config/axiosConfig';
+import { setUser, setLoading, setError } from '../slices/authSlice';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 
 interface ErrorResponse {
   error?: string;
@@ -9,37 +8,35 @@ interface ErrorResponse {
 }
 
 export const fetchUserData = createAsyncThunk(
-  "auth/fetchUser",
-  async (_, { dispatch }) => {
+  'auth/fetchUserData',
+  async (_, { dispatch, rejectWithValue }) => {
     try {
-      console.log("[fetchUserData] Starting to fetch user data...");
       dispatch(setLoading(true));
-
-      console.log("[fetchUserData] Making API request to /api/user/me...");
-
-      console.log(API_BASE_URL);
-      const response = await axios.get(`${API_BASE_URL}/api/user/me`, {
-        withCredentials: true,
-      });
-      console.log("[fetchUserData] API Response:", response.data);
-
-      console.log("[fetchUserData] Dispatching user data to Redux store...");
+      const token = localStorage.getItem('jwtToken');
+      if (!token) {
+        dispatch(setUser(null));
+        return rejectWithValue('No authentication token found');
+      }
+      const authHeader = axiosInstance.defaults.headers.common['Authorization'];
+      console.log('[fetchUserData] Authorization header:', authHeader);
+      const response = await axiosInstance.get('/api/user/me');
       dispatch(setUser(response.data));
       return response.data;
-    } catch (err) {
-      const error = err as AxiosError<ErrorResponse>;
-      console.error("[fetchUserData] Error details:", {
+    } catch (error) {
+      console.error('[fetchUserData] Error details:', {
         status: error.response?.status,
         statusText: error.response?.statusText,
         message: error.response?.data?.message,
         error: error.message,
       });
-      dispatch(
-        setError(error.response?.data?.message || "Authentication failed")
-      );
-      throw err;
+      if (error.response?.status === 401) {
+        localStorage.removeItem('jwtToken');
+        delete axiosInstance.defaults.headers.common['Authorization'];
+        dispatch(setUser(null));
+      }
+      return rejectWithValue(error.response?.data || error.message);
     } finally {
-      console.log("[fetchUserData] Request completed");
+      console.log('[fetchUserData] Request completed');
       dispatch(setLoading(false));
     }
   }

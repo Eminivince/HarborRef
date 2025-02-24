@@ -1,6 +1,7 @@
 // backend/routes/authLocal.js
 const express = require("express");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 const User = require("../models/HarborUser");
 const router = express.Router();
 
@@ -99,22 +100,28 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    // If using session-based:
-    req.login(user, (err) => {
-      if (err) {
-        console.log(`[${new Date().toISOString()}] Login error - Session creation failed for user: ${user.user_id}`);
-        return res.status(500).json({ error: err });
-      }
-      console.log(`[${new Date().toISOString()}] Login successful - User ID: ${user.user_id}`);
-      return res.json({
-        message: "Logged in successfully",
+    // Generate JWT token
+    const token = jwt.sign(
+      { 
+        userId: user._id,
         user_id: user.user_id,
-      });
-    });
+        email: user.email,
+        username: user.username
+      }, 
+      process.env.JWT_SECRET, 
+      { expiresIn: '24h' }
+    );
 
-    // If you prefer JWT-based, you'd generate a token instead:
-    // const token = jwt.sign({ userId: user._id }, 'your_jwt_secret', { expiresIn: '1h' });
-    // res.json({ token, message: 'Logged in successfully', user_id: user.user_id });
+    console.log(`[${new Date().toISOString()}] Login successful - User ID: ${user.user_id}`);
+    return res.json({
+      message: "Logged in successfully",
+      token,
+      user: {
+        user_id: user.user_id,
+        email: user.email,
+        username: user.username
+      }
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: err.message });
