@@ -1,7 +1,7 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios, { AxiosError } from 'axios';
-import { setUser, setLoading, setError } from '../slices/authSlice';
-import { API_BASE_URL } from '../../config/api';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios, { AxiosError } from "axios";
+import { setUser, setLoading, setError } from "../slices/authSlice";
+import { API_BASE_URL } from "../../config/api";
 
 interface ErrorResponse {
   error?: string;
@@ -9,19 +9,21 @@ interface ErrorResponse {
 }
 
 export const fetchUserData = createAsyncThunk(
-  'auth/fetchUser',
+  "auth/fetchUser",
   async (_, { dispatch }) => {
     try {
-      console.log('[fetchUserData] Starting to fetch user data...');
+      console.log("[fetchUserData] Starting to fetch user data...");
       dispatch(setLoading(true));
-      
-      console.log('[fetchUserData] Making API request to /api/user/me...');
+
+      console.log("[fetchUserData] Making API request to /api/user/me...");
+
+      console.log(API_BASE_URL);
       const response = await axios.get(`${API_BASE_URL}/api/user/me`, {
-        withCredentials: true
+        withCredentials: true,
       });
-      console.log('[fetchUserData] API Response:', response.data);
-      
-      console.log('[fetchUserData] Dispatching user data to Redux store...');
+      console.log("[fetchUserData] API Response:", response.data);
+
+      console.log("[fetchUserData] Dispatching user data to Redux store...");
       dispatch(setUser(response.data));
       return response.data;
     } catch (err) {
@@ -30,12 +32,14 @@ export const fetchUserData = createAsyncThunk(
         status: error.response?.status,
         statusText: error.response?.statusText,
         message: error.response?.data?.message,
-        error: error.message
+        error: error.message,
       });
-      dispatch(setError(error.response?.data?.message || 'Authentication failed'));
+      dispatch(
+        setError(error.response?.data?.message || "Authentication failed")
+      );
       throw err;
     } finally {
-      console.log('[fetchUserData] Request completed');
+      console.log("[fetchUserData] Request completed");
       dispatch(setLoading(false));
     }
   }
