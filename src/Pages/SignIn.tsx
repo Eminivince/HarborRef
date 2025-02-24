@@ -107,7 +107,7 @@ export default function SignIn() {
 
       if (
         res.data.message === "Logged in successfully" &&
-        res.data.user?.user_id
+        res.data.user
       ) {
         console.log("[handleLogin] Login successful, setting user data");
         // Store the JWT token
