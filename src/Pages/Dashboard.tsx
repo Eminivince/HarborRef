@@ -9,6 +9,7 @@ import { fetchUserData } from "../store/thunks/authThunks";
 import axios from "axios";
 // import { useDispatch as useDispatchRedux } from "react-redux";
 import type { AppDispatch } from "../store/store";
+import { API_BASE_URL } from "../config/api";
 
 // Import your layout components
 import Aside from "../components/Aside";
@@ -66,7 +67,7 @@ const Dashboard: React.FC = () => {
       if (!user) return;
       try {
         const response = await axios.get<ChartData>(
-          "http://localhost:5002/api/user/chart-data",
+          `${API_BASE_URL}/api/user/chart-data`,
           { withCredentials: true }
         );
         setChartData(response.data);

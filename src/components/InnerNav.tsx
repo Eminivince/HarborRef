@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/slices/authSlice";
+import { API_BASE_URL } from "../config/api";
 
 // const config = getDefaultConfig({
 //   appName: "My RainbowKit App",
@@ -33,7 +34,7 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:5002/api/auth/logout', {
+      const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
         method: 'POST',
         credentials: 'include',
       });

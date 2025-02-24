@@ -7,6 +7,7 @@ import { setUser, setLoading, setError } from "../store/slices/authSlice";
 import { fetchUserData } from "../store/thunks/authThunks";
 import type { RootState, AppDispatch } from "../store/store";
 import Navbar from "../components/Navbar";
+import { API_BASE_URL } from "../config/api";
 
 interface User {
   id: string;
@@ -37,14 +38,14 @@ export default function SignIn() {
     setInitialLoad(false);
     dispatch(setLoading(true));
     dispatch(setError(null));
-    window.location.href = "http://localhost:5002/api/auth/google";
+    window.location.href = `${API_BASE_URL}/api/auth/google`;
   };
 
   const handleXLogin = () => {
     setInitialLoad(false);
     dispatch(setLoading(true));
     dispatch(setError(null));
-    window.location.href = "http://localhost:5002/api/auth/x";
+    window.location.href = `${API_BASE_URL}/api/auth/x`;
   };
 
   useEffect(() => {
@@ -94,7 +95,7 @@ export default function SignIn() {
     try {
       console.log("[handleLogin] Making login API request...");
       const res = await axios.post<ApiResponse>(
-        "http://localhost:5002/api/auth/login",
+        `${API_BASE_URL}/api/auth/login`,
         { usernameOrEmail, password },
         { withCredentials: true }
       );

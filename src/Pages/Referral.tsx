@@ -5,6 +5,7 @@ import Aside from "../components/Aside";
 import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
+import { API_BASE_URL } from "../config/api";
 
 // We'll define an interface for the *referred* users we fetch
 interface ReferredUser {
@@ -35,7 +36,7 @@ const Referral: React.FC = () => {
         // no referral code => ask backend to generate one
         try {
           const res = await axios.post(
-            "http://localhost:5002/api/user/referral",
+            `${API_BASE_URL}/api/user/referral`,
             {},
             { withCredentials: true }
           );
@@ -55,7 +56,7 @@ const Referral: React.FC = () => {
       if (!user) return;
       try {
         const res = await axios.get<ReferredUser[]>(
-          "http://localhost:5002/api/user/referrallist",
+          `${API_BASE_URL}/api/user/referrallist`,
           { withCredentials: true }
         );
         setReferredUsers(res.data);

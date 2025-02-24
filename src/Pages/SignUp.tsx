@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { setError } from "../store/slices/authSlice";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import Navbar from "../components/Navbar";
+import { API_BASE_URL } from "../config/api";
 
 interface PasswordRequirements {
   minLength: boolean;
@@ -69,7 +70,7 @@ const SignUp = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:5002/api/auth/register", {
+      const response = await fetch(`${API_BASE_URL}/api/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -224,7 +225,7 @@ const SignUp = () => {
         <div className="flex gap-4 mb-4">
           <button
             onClick={() => {
-              window.location.href = "http://localhost:5002/api/auth/google";
+              window.location.href = `${API_BASE_URL}/api/auth/google`;
             }}
             className="w-full bg-white text-black hover:bg-gray-200 font-semibold py-2 rounded-lg flex items-center justify-center gap-2">
             <img

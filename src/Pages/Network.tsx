@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 interface ReferralUser {
   _id: string;
@@ -40,7 +41,7 @@ const Network = () => {
   const fetchReferralTree = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5002/api/user/referraltree",
+        `${API_BASE_URL}/api/user/referraltree`,
         {
           credentials: "include",
         }
