@@ -156,7 +156,7 @@ export default function SignIn() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700
-              focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              focus:outline-none focus:bg-transparent"
             placeholder="Enter email or username"
           />
         </div>
@@ -168,7 +168,7 @@ export default function SignIn() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700
-              focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              focus:outline-none focus:bg-transparent"
             placeholder="Enter your password"
           />
           <button
@@ -182,17 +182,17 @@ export default function SignIn() {
         <button
           onClick={handleLogin}
           disabled={loading}
-          className="w-full bg-yellow-500 hover:bg-yellow-600
+          className="w-full bg-amber-200 hover:bg-amber-300
             text-black font-semibold py-2 rounded-lg">
           {loading ? "Signing In..." : "Sign In"}
         </button>
 
-        <div className="my-4 text-center text-gray-400">or continue with</div>
+        <div className="my-4 mt-8 text-center text-gray-400">or continue with</div>
 
         <div className="flex gap-4">
           <button
             onClick={handleGoogleLogin}
-            className="w-full bg-white text-black hover:bg-gray-200 font-semibold py-2 rounded-lg flex items-center justify-center gap-2">
+            className="w-[35%] mx-auto bg-white text-black hover:bg-gray-200 font-semibold py-2 rounded-xl flex items-center justify-center gap-2">
             <img
               src="https://www.google.com/favicon.ico"
               alt="Google"
@@ -200,16 +200,12 @@ export default function SignIn() {
             />
             Google
           </button>
-          <button
-            onClick={handleXLogin}
-            className="w-full bg-blue-600 text-white hover:bg-blue-700 font-semibold py-2 rounded-lg">
-            X
-          </button>
+          
         </div>
 
         <p className="mt-4 text-center text-gray-400">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-yellow-400 hover:underline">
+          <Link to="/signup" className="text-amber-200 hover:underline">
             Register here
           </Link>
         </p>

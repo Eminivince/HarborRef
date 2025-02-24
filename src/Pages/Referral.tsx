@@ -84,7 +84,7 @@ const Referral: React.FC = () => {
 
   return (
     // Make the container flexible for mobile and larger screens
-    <div className="flex flex-col md:flex-row min-h-screen bg-white text-white">
+    <div className="flex flex-col md:flex-row md:min-h-screen  bg-white pb-20 text-white">
       <Aside />
 
       {/* Main Content */}

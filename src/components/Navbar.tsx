@@ -69,7 +69,7 @@ const Navbar = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="md:hidden absolute top-full left-0 right-0 bg-[#1E1E1E] flex flex-col items-center py-4 text-white shadow-lg overflow-hidden">
+              className="md:hidden absolute min-h-screen z-50 top-full left-0 right-0 bg-[#1E1E1E] flex flex-col items-center py-4 text-white shadow-lg overflow-hidden">
               {[
                 { to: "/stake", text: "Staking" },
                 { to: "/staking", text: "FAQ" },

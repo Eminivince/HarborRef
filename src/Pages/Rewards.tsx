@@ -116,7 +116,7 @@ const Rewards = () => {
   if (!user) return null;
 
   return (
-    <div className="flex h-screen bg-white pb-16">
+    <div className="flex md:h-screen bg-white pb-16">
       <Aside />
 
       <main className="flex-1 p-6">

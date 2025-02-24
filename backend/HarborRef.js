@@ -69,6 +69,14 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
+    proxy: true,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      maxAge: 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      domain: process.env.NODE_ENV === 'production' ? 'glacial-river-04858-a83417b9c48e.herokuapp.com' : 'localhost'
+    }
   })
 );
 

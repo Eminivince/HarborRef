@@ -113,7 +113,7 @@ const SignUp = () => {
                 setEmail(e.target.value);
                 // setEmailValid(validateEmail(e.target.value));
               }}
-              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:bg-transparent"
               placeholder="johndoe@gmail.com"
               required
             />
@@ -125,7 +125,7 @@ const SignUp = () => {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:bg-transparent"
               placeholder="Choose a username"
               required
             />
@@ -140,7 +140,7 @@ const SignUp = () => {
                 setPassword(e.target.value);
                 setPasswordRequirements(validatePassword(e.target.value));
               }}
-              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:bg-transparent"
               placeholder="Enter your password"
               required
             />
@@ -215,7 +215,7 @@ const SignUp = () => {
 
           <button
             type="submit"
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-2 rounded-lg mt-4">
+            className="w-full bg-amber-200 hover:bg-amber-300 text-black font-semibold py-2 rounded-lg mt-4">
             Sign Up
           </button>
         </form>
@@ -238,7 +238,7 @@ const SignUp = () => {
         </div>
 
         <div className="text-center mt-4">
-          <Link to="/signin" className="text-yellow-500 hover:text-yellow-400">
+          <Link to="/signin" className="text-amber-200 hover:text-amber-400">
             <span className="text-gray-600">Already have an account?</span> Sign
             in
           </Link>
