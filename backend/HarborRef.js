@@ -9,7 +9,7 @@ const mongoose = require("mongoose");
 // const connectDB = require("./config/db");
 const localAuthRoutes = require("./routes/authLocal");
 const googleAuthRoutes = require("./routes/authGoogle");
-const logoutRoutes = require('./routes/logout');
+const logoutRoutes = require("./routes/logout");
 // const xAuthRoutes = require("./routes/authX"); // import X auth routes
 const userRoutes = require("./routes/user"); // import the user router
 const referralCodeRoutes = require("./routes/referralCode"); // import the user router
@@ -37,9 +37,10 @@ connectDB()
 
 // Middleware
 app.use(rateLimiter);
-const FRONTEND_URL = process.env.NODE_ENV === 'production'
-  ? 'https://harbor-r.vercel.app'
-  : 'http://localhost:5174';
+const FRONTEND_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://harbor-r.vercel.app"
+    : "http://localhost:5173";
 
 app.use(
   cors({

@@ -28,30 +28,32 @@ router.get(
         // Check for stored referral code
         const referralCode = req.session.referralCode;
         if (referralCode && !req.user.referred_by) {
-          const User = require('../models/HarborUser');
-          
+          const User = require("../models/HarborUser");
+
           // Find referring user
           const referrer = await User.findOne({ referral_code: referralCode });
           if (referrer) {
             // Update referred user
-            await User.findByIdAndUpdate(req.user._id, { referred_by: referrer.user_id });
-            
+            await User.findByIdAndUpdate(req.user._id, {
+              referred_by: referrer.user_id,
+            });
+
             // Update referrer's referrals array
             await User.findByIdAndUpdate(referrer._id, {
-              $addToSet: { referrals: req.user.user_id }
+              $addToSet: { referrals: req.user.user_id },
             });
           }
-          
+
           // Clear the stored referral code
           delete req.session.referralCode;
         }
-        res.redirect("http://localhost:5174/dashboard");
+        res.redirect("http://localhost:5173/dashboard");
       } catch (error) {
-        console.error('Error processing referral:', error);
-        res.redirect("http://localhost:5174/dashboard");
+        console.error("Error processing referral:", error);
+        res.redirect("http://localhost:5173/dashboard");
       }
     } else {
-      res.redirect("http://localhost:5174/signin");
+      res.redirect("http://localhost:5173/signin");
     }
   }
 );

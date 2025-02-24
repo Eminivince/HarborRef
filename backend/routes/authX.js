@@ -16,9 +16,9 @@
 //   (req, res) => {
 //     // Successful authentication
 //     if (req.user) {
-//       res.redirect("http://localhost:5174/dashboard");
+//       res.redirect("http://localhost:5173/dashboard");
 //     } else {
-//       res.redirect("http://localhost:5174/signin");
+//       res.redirect("http://localhost:5173/signin");
 //     }
 //   }
 // );

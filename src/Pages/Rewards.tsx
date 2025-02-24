@@ -6,6 +6,7 @@ import UndoneMedal from "../assets/medalbw.png";
 import { useSelector } from "react-redux";
 import type { RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../config/api";
 
 interface TierData {
   minReferrals: number;
@@ -37,7 +38,7 @@ const Rewards = () => {
   const fetchEligibility = async () => {
     try {
       const response = await fetch(
-        "http://localhost:5002/api/claims/eligibility",
+        `${API_BASE_URL}/api/claims/eligibility`,
         {
           credentials: "include",
         }
@@ -59,7 +60,7 @@ const Rewards = () => {
 
   const handleClaim = async (tierIndex: number) => {
     try {
-      const response = await fetch("http://localhost:5002/api/claims/claim", {
+      const response = await fetch(`${API_BASE_URL}/api/claims/claim`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ tierIndex }),

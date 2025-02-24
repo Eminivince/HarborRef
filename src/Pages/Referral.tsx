@@ -76,7 +76,7 @@ const Referral: React.FC = () => {
 
   // 3) Handler for copying link
   const copyLink = () => {
-    const link = `http://localhost:5174/signup?code=${referralCode}`;
+    const link = `${window.location.origin}/signup?code=${referralCode}`;
     navigator.clipboard.writeText(link).then(() => {
       alert("Link copied to clipboard!");
     });
@@ -97,9 +97,9 @@ const Referral: React.FC = () => {
         <div className="my-7 flex flex-col md:flex-row items-start md:items-center justify-between space-y-4 md:space-y-0">
           <h1>Invite Link</h1>
           <p className="border w-full md:w-fit p-3 rounded break-all">
-            {referralCode
-              ? `http://localhost:5174/signup?code=${referralCode}`
-              : "No referral code yet..."}
+            {referralCode && API_BASE_URL == "http://localhost:5002"
+              ? `http://localhost:5173/signup?code=${referralCode}`
+              : `https://harbor-r.vercel.app/signup?code=${referralCode}`}
           </p>
           <button
             className="bg-gray-500 w-full md:w-fit p-3 rounded text-center"

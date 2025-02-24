@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { setUser, setLoading, setError } from '../slices/authSlice';
+import { API_BASE_URL } from '../../config/api';
 
 interface ErrorResponse {
   error?: string;
@@ -15,7 +16,7 @@ export const fetchUserData = createAsyncThunk(
       dispatch(setLoading(true));
       
       console.log('[fetchUserData] Making API request to /api/user/me...');
-      const response = await axios.get('http://localhost:5002/api/user/me', {
+      const response = await axios.get(`${API_BASE_URL}/api/user/me`, {
         withCredentials: true
       });
       console.log('[fetchUserData] API Response:', response.data);
