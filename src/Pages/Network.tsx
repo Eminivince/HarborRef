@@ -149,7 +149,7 @@ const Network = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}>
-      <div className="flex bg-white text-white h-screen">
+      <div className="flex bg-white text-white min-h-screen">
         <Aside />
         <main className="w-full mt-6 px-10">
           <InnerNav user={user} />
