@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getAuthHeader } from '../utils/auth';
+// import { getAuthHeader } from '../utils/auth';
 import { API_BASE_URL } from './api';
 
 const axiosInstance = axios.create({
