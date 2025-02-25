@@ -1,11 +1,11 @@
 import axiosInstance from '../../config/axiosConfig';
-import { setUser, setLoading, setError } from '../slices/authSlice';
+import { setUser, setLoading } from '../slices/authSlice';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-interface ErrorResponse {
-  error?: string;
-  message?: string;
-}
+// interface ErrorResponse {
+//   error?: string;
+//   message?: string;
+// }
 
 export const fetchUserData = createAsyncThunk(
   'auth/fetchUserData',
@@ -27,19 +27,37 @@ export const fetchUserData = createAsyncThunk(
       });
       dispatch(setUser(response.data));
       return response.data;
-    } catch (error) {
-      console.error('[fetchUserData] Error details:', {
-        status: error.response?.status,
-        statusText: error.response?.statusText,
-        message: error.response?.data?.message,
-        error: error.message,
-      });
-      if (error.response?.status === 401) {
-        localStorage.removeItem('jwtToken');
-        delete axiosInstance.defaults.headers.common['Authorization'];
-        dispatch(setUser(null));
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error) {
+        const axiosError = error as { 
+          response?: { 
+            status?: number; 
+            statusText?: string; 
+            data?: { message?: string };
+          };
+          message: string;
+        };
+        
+        console.error('[fetchUserData] Error details:', {
+          status: axiosError.response?.status,
+          statusText: axiosError.response?.statusText,
+          message: axiosError.response?.data?.message,
+          error: axiosError.message,
+        });
+
+        if (axiosError.response?.status === 401) {
+          localStorage.removeItem('jwtToken');
+          delete axiosInstance.defaults.headers.common['Authorization'];
+          dispatch(setUser(null));
+        }
+        
+        return rejectWithValue(axiosError.response?.data || axiosError.message);
       }
-      return rejectWithValue(error.response?.data || error.message);
+      
+      // Handle non-axios errors
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      console.error('[fetchUserData] Unexpected error:', errorMessage);
+      return rejectWithValue(errorMessage);
     } finally {
       console.log('[fetchUserData] Request completed');
       dispatch(setLoading(false));

@@ -48,11 +48,31 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        const token = localStorage.getItem("jwtToken");
+        if (!token) {
+          console.log("No token found, redirecting to signin");
+          navigate("/signin");
+          return;
+        }
+
+        // Configure axios with the token
+        axiosInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${token}`;
+
         if (!user) {
-          await dispatch(fetchUserData());
+          console.log("No user in state, fetching user data");
+          const userData = await dispatch(fetchUserData());
+          // @ts-expect-error unknown
+          if (userData.error) {
+            // @ts-expect-error unknown
+            console.error("Error in user data:", userData.error);
+            navigate("/signin");
+            return;
+          }
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error in authentication check:", error);
         setChartLoading(false);
         navigate("/signin");
       }
@@ -66,7 +86,7 @@ const Dashboard: React.FC = () => {
       if (!user) return;
       try {
         const response = await axiosInstance.get<ChartData>(
-          '/api/user/chart-data'
+          "/api/user/chart-data"
         );
         setChartData(response.data);
       } catch (error) {

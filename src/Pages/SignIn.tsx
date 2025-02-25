@@ -8,13 +8,15 @@ import { fetchUserData } from "../store/thunks/authThunks";
 import type { RootState, AppDispatch } from "../store/store";
 import Navbar from "../components/Navbar";
 import { API_BASE_URL } from "../config/api";
-import { setAuthToken } from "../utils/auth";
+// import { setAuthToken } from "../utils/auth";
+import axiosInstance from "../config/axiosConfig";
 
 interface User {
   id: string;
   email: string;
   username?: string;
   displayName?: string;
+  token?: string; // Ensure token is part of the User type
 }
 
 interface ApiResponse {
@@ -104,14 +106,21 @@ export default function SignIn() {
 
       console.log("[handleLogin] Login API response:", res.data);
       console.log("[handleLogin] Response status:", res.data.user);
-      console.log("[handleLogin] Response status:", res.data.user?.user_id);
+      // console.log("[handleLogin] Response status:", res.data.user?.user_id);
 
       if (res.data.message === "Logged in successfully" && res.data.user) {
         console.log("[handleLogin] Login successful, setting user data");
-        // Store the JWT token
+
+        // @ts-expect-error unknown
         if (res.data.token) {
-          setAuthToken(res.data.token);
-        }
+          // @ts-expect-error unknown
+          localStorage.setItem("jwtToken", res.data.token);
+          axiosInstance.defaults.headers.common[
+            "Authorization"
+            // @ts-expect-error unknown
+          ] = `Bearer ${res.data.token}`;
+        } // Store the JWT token
+
         dispatch(setUser(res.data.user));
         console.log(
           "[handleLogin] User data set, fetching additional user data"
