@@ -36,7 +36,6 @@ const Rewards = () => {
   }, [user]);
 
   const fetchEligibility = async () => {
-
     try {
       const response = await axiosInstance.get("/api/claims/eligibility");
       setEligibleTiers(response.data.eligibleTiers);
@@ -89,8 +88,11 @@ const Rewards = () => {
 
   if (loading || isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen text-white">
-        <p>Loading user data...</p>
+      <div className="flex justify-center items-center h-screen text-white animate-fadeIn">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
+          <p className="text-xl animate-pulse">Loading data...</p>
+        </div>
       </div>
     );
   }
