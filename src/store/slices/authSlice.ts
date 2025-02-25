@@ -8,6 +8,7 @@ interface User {
   earnings_over_time?: Record<string, number>;
   stake_amount_over_time?: Record<string, number>;
   friends_earnings?: Record<string, number>;
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   [key: string]: any;
 }
 

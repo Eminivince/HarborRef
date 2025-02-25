@@ -14,21 +14,28 @@ const REWARD_TIERS = [
 // GET /api/claims/eligibility
 // Check user's eligibility for rewards based on their referral count
 router.get("/eligibility", verifyToken, async (req, res) => {
+  console.log(`[${new Date().toISOString()}] Checking eligibility for user ID: ${req.user.userId}`);
   try {
-    // console.log(req.user);
     const user = await User.findById(req.user.userId);
-    console.log(user);
     if (!user) {
+      console.log(`[${new Date().toISOString()}] User not found: ${req.user.userId}`);
       return res.status(404).json({ error: "User not found" });
     }
 
     const referralCount = user.referrals ? user.referrals.length : 0;
-    const eligibleTiers = REWARD_TIERS.map((tier) => ({
-      ...tier,
-      eligible: referralCount >= tier.minReferrals,
-      claimed: false, // TODO: Add claim tracking to user model
-    }));
+    console.log(`[${new Date().toISOString()}] User ${user.user_id} has ${referralCount} referrals`);
 
+    const eligibleTiers = REWARD_TIERS.map((tier) => {
+      const isEligible = referralCount >= tier.minReferrals;
+      console.log(`[${new Date().toISOString()}] Tier ${tier.minReferrals} referrals: ${isEligible ? 'Eligible' : 'Not eligible'} (${referralCount}/${tier.minReferrals})`);
+      return {
+        ...tier,
+        eligible: isEligible,
+        claimed: false, // TODO: Add claim tracking to user model
+      };
+    });
+
+    console.log(`[${new Date().toISOString()}] Eligibility check completed for user ${user.user_id}`);
     res.json({
       referralCount,
       eligibleTiers,
@@ -43,15 +50,18 @@ router.get("/eligibility", verifyToken, async (req, res) => {
 // Process a reward claim for an eligible tier
 router.post("/claim", verifyToken, async (req, res) => {
   const { tierIndex } = req.body;
+  console.log(`[${new Date().toISOString()}] Claim attempt - User ID: ${req.user.userId}, Tier Index: ${tierIndex}`);
 
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.userId);
     if (!user) {
+      console.log(`[${new Date().toISOString()}] User not found for claim: ${req.user.userId}`);
       return res.status(404).json({ error: "User not found" });
     }
 
     // Validate tier index
     if (tierIndex < 0 || tierIndex >= REWARD_TIERS.length) {
+      console.log(`[${new Date().toISOString()}] Invalid tier index: ${tierIndex}`);
       return res.status(400).json({ error: "Invalid tier index" });
     }
 
@@ -60,6 +70,7 @@ router.post("/claim", verifyToken, async (req, res) => {
 
     // Check if user is eligible for this tier
     if (referralCount < tier.minReferrals) {
+      console.log(`[${new Date().toISOString()}] User ${user.user_id} not eligible for tier ${tierIndex} (${referralCount}/${tier.minReferrals} referrals)`);
       return res.status(400).json({
         error: "Not eligible for this reward tier",
         required: tier.minReferrals,
@@ -69,6 +80,7 @@ router.post("/claim", verifyToken, async (req, res) => {
 
     // TODO: Add claim processing logic here
     // For now, just return success
+    console.log(`[${new Date().toISOString()}] Processing successful claim for user ${user.user_id} - Tier ${tierIndex} ($${tier.reward})`);
     res.json({
       success: true,
       message: "Claim processed successfully",

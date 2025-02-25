@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setError } from "../store/slices/authSlice";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
+import { IoMailOutline } from "react-icons/io5";
 import Navbar from "../components/Navbar";
 import { API_BASE_URL } from "../config/api";
 
@@ -99,12 +100,23 @@ const SignUp = () => {
   };
 
   return (
-    <div className="items-center h-screen bg-black">
+    <div className="items-center h-screen bg-[#1E1E1E]">
       <Navbar />
-      <div className="bg-black p-8 rounded-2xl shadow-lg w-96 mx-auto mt-10 text-white">
+      <div className=" p-8 rounded-2xl shadow-lg w-96 mx-auto mt-10 text-white">
         <h2 className="text-2xl font-semibold mb-4 text-center">Sign Up</h2>
         <form onSubmit={handleSignup}>
           <div className="mb-4">
+            <label className="block mb-1 text-gray-300">Username</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 outline-none focus:bg-transparent"
+              placeholder="Choose a username"
+              required
+            />
+          </div>
+          <div className="mb-4 relative">
             <label className="block mb-1 text-gray-300">Email</label>
             <input
               type="email"
@@ -113,22 +125,15 @@ const SignUp = () => {
                 setEmail(e.target.value);
                 // setEmailValid(validateEmail(e.target.value));
               }}
-              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:bg-transparent"
+              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 outline-none focus:bg-transparent"
               placeholder="johndoe@gmail.com"
               required
             />
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-1 text-gray-300">Username</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:bg-transparent"
-              placeholder="Choose a username"
-              required
-            />
+            <button
+              type="button"
+              className="absolute top-10 right-3 text-gray-400 hover:text-gray-200">
+              <IoMailOutline size={20} />
+            </button>
           </div>
 
           <div className="mb-4 relative">
@@ -140,7 +145,7 @@ const SignUp = () => {
                 setPassword(e.target.value);
                 setPasswordRequirements(validatePassword(e.target.value));
               }}
-              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:bg-transparent"
+              className="w-full p-2 rounded-lg bg-gray-900 border border-gray-700 outline-none focus:bg-transparent"
               placeholder="Enter your password"
               required
             />
@@ -215,32 +220,34 @@ const SignUp = () => {
 
           <button
             type="submit"
-            className="w-full bg-amber-200 hover:bg-amber-300 text-black font-semibold py-2 rounded-lg mt-4">
+            className="w-full bg-[#FFEE52] hover:bg-amber-300 duration-300n hover:cursor-pointer text-black font-semibold py-2 rounded-[999px] mt-4">
             Sign Up
           </button>
         </form>
 
-        <div className="my-4 text-center text-gray-400">or continue with</div>
+        <div className="my-4 text-center flex items-center justify-center gap-4">
+          <div className="h-[2px] bg-white flex-1"></div>
+          <div>or continue with</div>
+          <div className="h-[2px] bg-white flex-1"></div>
+        </div>
 
         <div className="flex gap-4 mb-4">
           <button
             onClick={() => {
               window.location.href = `${API_BASE_URL}/api/auth/google`;
             }}
-            className="w-full bg-white text-black hover:bg-gray-200 font-semibold py-2 rounded-lg flex items-center justify-center gap-2">
+            className=" bg-white mx-auto hover:cursor-pointer duration-300 text-black hover:bg-gray-200 font-semibold p-3 rounded-lg flex items-center justify-center gap-2">
             <img
               src="https://www.google.com/favicon.ico"
               alt="Google"
               className="w-5 h-5"
             />
-            Google
           </button>
         </div>
 
         <div className="text-center mt-4">
           <Link to="/signin" className="text-amber-200 hover:text-amber-400">
-            <span className="text-gray-600">Already have an account?</span> Sign
-            in
+            <span className="text-white">Already have an account?</span> Sign in
           </Link>
         </div>
       </div>

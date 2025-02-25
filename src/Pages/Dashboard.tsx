@@ -226,7 +226,7 @@ const Dashboard: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}>
-      <div className="flex bg-white md:h-screen pb-20 text-white">
+      <div className="flex bg-gray-200 md:h-screen pb-20 text-white">
         <Aside />
         <main className="flex-1 p-6">
           <div className="text-white">

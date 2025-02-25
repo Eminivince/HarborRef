@@ -10,6 +10,7 @@ import Navbar from "../components/Navbar";
 import { API_BASE_URL } from "../config/api";
 // import { setAuthToken } from "../utils/auth";
 import axiosInstance from "../config/axiosConfig";
+import { IoMailOutline } from "react-icons/io5";
 
 interface User {
   id: string;
@@ -160,16 +161,16 @@ export default function SignIn() {
   };
 
   return (
-    <div className="h-screen bg-black">
+    <div className="h-screen bg-[[#1E1E1E]]">
       <Navbar />
-      <div className="bg-black p-8 rounded-2xl shadow-lg w-96 mx-auto mt-10 text-white">
+      <div className=" p-8 rounded-2xl shadow-lg w-96 mx-auto mt-28 text-white">
         <h2 className="text-2xl font-semibold mb-4 text-center">Sign In</h2>
 
         {!initialLoad && error && (
           <p className="text-red-500 text-center mb-4">{error}</p>
         )}
 
-        <div className="mb-4">
+        <div className="mb-4 relative">
           <label className="block mb-1 text-gray-300">Email/Username</label>
           <input
             type="email"
@@ -179,6 +180,11 @@ export default function SignIn() {
               focus:outline-none focus:bg-transparent"
             placeholder="Enter email or username"
           />
+          <button
+            type="button"
+            className="absolute top-10 right-3 text-gray-400 hover:text-gray-200">
+            <IoMailOutline size={20} />
+          </button>
         </div>
 
         <div className="mb-4 relative">
@@ -202,31 +208,32 @@ export default function SignIn() {
         <button
           onClick={handleLogin}
           disabled={loading}
-          className="w-full bg-amber-200 hover:bg-amber-300
-            text-black font-semibold py-2 rounded-lg">
+          className="w-full bg-[#FFEE52] hover:bg-amber-300
+            text-black font-semibold py-2 rounded-[999px]">
           {loading ? "Signing In..." : "Sign In"}
         </button>
 
-        <div className="my-4 mt-8 text-center text-gray-400">
-          or continue with
+        <div className="my-4 mt-8 text-center flex items-center justify-center gap-4">
+          <div className="h-[2px] bg-white flex-1"></div>
+          <div>or continue with</div>
+          <div className="h-[2px] bg-white flex-1"></div>
         </div>
 
         <div className="flex gap-4">
           <button
             onClick={handleGoogleLogin}
-            className="w-[35%] mx-auto bg-white text-black hover:bg-gray-200 font-semibold py-2 rounded-xl flex items-center justify-center gap-2">
+            className="p-3 mx-auto bg-white text-black hover:bg-gray-200 font-semibold py-2 rounded-xl flex items-center justify-center gap-2">
             <img
               src="https://www.google.com/favicon.ico"
               alt="Google"
               className="w-5 h-5"
             />
-            Google
           </button>
         </div>
 
-        <p className="mt-4 text-center text-gray-400">
+        <p className="mt-4 text-center ">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-amber-200 hover:underline">
+          <Link to="/signup" className="text-[#FFEE52] hover:underline">
             Register here
           </Link>
         </p>

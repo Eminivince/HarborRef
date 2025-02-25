@@ -1,15 +1,43 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../assets/Harbourlogo.png";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../store/slices/authSlice";
+import { removeAuthToken } from "../utils/auth";
+import { API_BASE_URL } from "../config/api";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  const user = useSelector((state: any) => state.auth.user);
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        dispatch(setUser(null));
+        removeAuthToken();
+        localStorage.removeItem("authenticatedUser");
+        navigate("/signin");
+      } else {
+        console.error("Logout failed");
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
 
   return (
     <>
       <motion.nav
-        className="flex justify-between items-center px-4 md:px-14 py-4 bg-[#1E1E1E] relative shadow-lg"
+        className="flex  justify-between items-center px-4 md:px-14 py-4 bg-[#1E1E1E] relative shadow-lg"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}>
@@ -17,7 +45,7 @@ const Navbar = () => {
           <motion.img
             src={Logo}
             alt="logo"
-            className="w-10 md:w-auto"
+            className="w-10 md:hidden"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           />
@@ -100,16 +128,25 @@ const Navbar = () => {
           )}
         </AnimatePresence>
 
-        {/* Desktop Login Button */}
-        <motion.div
-          className="hidden md:block bg-amber-200 py-2 px-7 text-black rounded-full hover:bg-amber-300 transition-colors"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}>
-          <Link to="/signin">
-            {" "}
-            <h1>Login</h1>
-          </Link>
-        </motion.div>
+        {/* Desktop Login/Logout Button */}
+        {user ? (
+          <motion.button
+            className="hidden md:block bg-amber-200 py-2 px-7 text-black rounded-full hover:bg-amber-300 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={handleLogout}>
+            <h1>Logout</h1>
+          </motion.button>
+        ) : (
+          <motion.div
+            className="hidden md:block bg-amber-200 py-2 px-7 text-black rounded-full hover:bg-amber-300 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}>
+            <Link to="/signin">
+              <h1>Login</h1>
+            </Link>
+          </motion.div>
+        )}
       </motion.nav>
     </>
   );

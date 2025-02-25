@@ -98,31 +98,27 @@ const Rewards = () => {
   if (!user) return null;
 
   return (
-    <div className="flex md:h-screen min-h-screen bg-white pb-16">
+    <div className="flex md:h-screen min-h-screen bg-gray-300 pb-16">
       <Aside />
 
       <main className="flex-1 p-6">
         <InnerNav user={user} />
-        <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-lg">
-          <h1 className="text-2xl font-bold text-center mb-2">
-            Invite more to earn more
-          </h1>
-          <h2 className="text-xl text-center mb-2">Total Earnings</h2>
-          <h3 className="text-3xl font-bold text-center mb-10 text-green-600">
-            ${totalEarnings}
-          </h3>
+        <div className="max-w-2xl mx-auto mt-10 p-6 bg-gray-300 ">
+          <h1 className="text-2xl font-bold mb-2">Invite more to earn more</h1>
+          <h2 className="text-xl mb-2">Total Earnings</h2>
+          <h3 className="text-3xl font-bold mb-10">${totalEarnings}</h3>
 
           <div className="space-y-6">
             {eligibleTiers.map((tier, index) => {
               const status = getStatus(tier);
               return (
-                <div key={index} className="bg-gray-100 p-6 rounded-lg shadow">
+                <div key={index} className="bg-white p-4 rounded-[20px] shadow">
                   <div className="flex justify-between items-center">
                     <div className="flex items-center space-x-4">
                       <img
                         src={status === "Claimed" ? DoneMedal : UndoneMedal}
                         alt="tier status"
-                        className="w-8 h-8"
+                        className="ms:w-8 md:h-8"
                       />
                       <div>
                         <h3 className="text-lg font-semibold">
@@ -137,16 +133,18 @@ const Rewards = () => {
                     </div>
 
                     <div className="flex flex-col items-center space-x-4">
-                      <span className="text-xl font-bold">${tier.reward}</span>
+                      <span className="md:text-xl font-semibold">
+                        ${tier.reward}
+                      </span>
                       <button
                         onClick={() =>
                           status === "Claimable" && handleClaim(index)
                         }
                         disabled={status !== "Claimable"}
-                        className={`px-4 py-2 rounded-lg transition-colors ${getButtonStyle(
+                        className={`px-4 py-2 rounded-[999px] hover:cursor-pointer duration-300 transition-colors ${getButtonStyle(
                           status
                         )}`}>
-                        {status === "Claimable" ? "Claim Now" : status}
+                        {status === "Claimable" ? "Claim" : status}
                       </button>
                     </div>
                   </div>
