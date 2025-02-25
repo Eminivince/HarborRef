@@ -16,7 +16,7 @@ const Aside = () => {
     <>
       {/* Sidebar for Desktop */}
       <aside
-        className={`hidden md:block bg-[#1E1E1E] text-white transition-all duration-300 ${
+        className={`hidden md:block bg-[#1E1E1E] text-white transition-all z-50 duration-300 ${
           collapsed ? "w-20" : "w-64"
         }  min-h-screen`}>
         <Link to="/">
