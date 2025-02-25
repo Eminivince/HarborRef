@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../store/slices/authSlice";
 import { API_BASE_URL } from "../config/api";
 import { removeAuthToken } from "../utils/auth";
+import Logo from "../assets/Cairclebg.png";
 
 // const config = getDefaultConfig({
 //   appName: "My RainbowKit App",
@@ -55,8 +56,9 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
   };
 
   return (
-    <div className="flex items-center justify-between md:relative fixed top-0 left-0 right-0 bg-white z-50 px-4 rounded-lg py-2 shadow-md ">
-      <ConnectButton accountStatus="full" showBalance={false} />
+    <div className="flex items-center justify-between md:relative fixed top-0 left-0 right-0 bg-white z-50 px-4 rounded-b-lg py-2 shadow-md ">
+      {/* <ConnectButton accountStatus="full" showBalance={false} /> */}
+      <img src={Logo} alt="Logo" className="w-20" />
       <div className="relative">
         <motion.div
           className="bg-black w-fit p-2 rounded-3xl px-6 flex items-center space-x-4 cursor-pointer"
@@ -158,6 +160,9 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
                 </svg>
                 Logout
               </button>
+              <div className="w-fit mx-auto">
+                <ConnectButton accountStatus="full" showBalance={false} />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

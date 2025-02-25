@@ -9,7 +9,11 @@ import Dashboard from "./Pages/Dashboard";
 import Stake from "./Pages/Stake";
 import Referral from "./Pages/Referral";
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+  getDefaultConfig,
+  RainbowKitProvider,
+  darkTheme,
+} from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Network from "./Pages/Network";
@@ -41,7 +45,7 @@ const AirDAO_NETWORK = {
   },
 };
 
-import { mainnet, sepolia, polygon, optimism, arbitrum } from "wagmi/chains";
+// import { mainnet, sepolia, polygon, optimism, arbitrum } from "wagmi/chains";
 
 const config = getDefaultConfig({
   appName: "HarborStake",
@@ -66,7 +70,10 @@ function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider modalSize="compact" initialChain={AirDAO_NETWORK}>
+        <RainbowKitProvider
+          modalSize="compact"
+          initialChain={AirDAO_NETWORK}
+          theme={darkTheme()}>
           <div className="space-grotesk-font bg-[#1E1E1E]">
             <Router>
               <Routes>
