@@ -55,7 +55,7 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
   };
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between fixed top-0 left-0 right-0 bg-white z-50 px-4 py-2 shadow-md">
       <ConnectButton />
       <div className="relative">
         <motion.div

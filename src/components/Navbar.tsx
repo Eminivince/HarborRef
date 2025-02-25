@@ -37,7 +37,7 @@ const Navbar = () => {
   return (
     <>
       <motion.nav
-        className="flex  justify-between items-center px-4 md:px-14 py-4 bg-[#1E1E1E] relative shadow-lg"
+        className="flex justify-between items-center px-4 md:px-14 py-4 bg-[#1E1E1E] fixed top-0 left-0 right-0 shadow-lg z-50"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}>
@@ -97,7 +97,7 @@ const Navbar = () => {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="md:hidden absolute min-h-screen z-50 top-full left-0 right-0 bg-[#1E1E1E] flex flex-col items-center py-4 text-white shadow-lg overflow-hidden">
+              className="md:hidden fixed min-h-screen z-40 top-[72px] left-0 right-0 bg-[#1E1E1E] flex flex-col items-center py-4 text-white shadow-lg overflow-hidden">
               {[
                 { to: "/stake", text: "Staking" },
                 { to: "/staking", text: "FAQ" },
