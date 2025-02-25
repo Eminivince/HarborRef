@@ -190,7 +190,7 @@ const Dashboard: React.FC = () => {
         },
         displayColors: false,
         intersect: false,
-        mode: 'index',
+        mode: "index",
       },
     },
     scales: {
@@ -202,7 +202,7 @@ const Dashboard: React.FC = () => {
           minRotation: 45,
           color: "#ffffff",
           font: { size: 10 },
-          maxTicksLimit: 8
+          maxTicksLimit: 8,
         },
       },
       y: {
@@ -215,7 +215,7 @@ const Dashboard: React.FC = () => {
         ticks: {
           color: "#ffffff",
           font: { size: 10 },
-          callback: (value: number) => `$${value.toFixed(0)}`
+          callback: (value: number) => `$${value.toFixed(0)}`,
         },
       },
     },
@@ -234,19 +234,19 @@ const Dashboard: React.FC = () => {
     },
     interaction: {
       intersect: false,
-      mode: 'index',
+      mode: "index",
     },
     animation: {
       duration: 750,
-      easing: 'easeInOutQuart',
+      easing: "easeInOutQuart",
     },
     layout: {
       padding: {
         left: 10,
         right: 10,
         top: 10,
-        bottom: 10
-      }
+        bottom: 10,
+      },
     },
     aspectRatio: 2,
   };
@@ -274,7 +274,7 @@ const Dashboard: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}>
-      <div className="flex bg-gray-200 min-h-screen pb-20 text-white">
+      <div className="flex bg-gray-300 min-h-screen pb-20 text-white">
         <Aside />
         <main className="flex-1 p-6">
           <div className="text-white">
@@ -285,22 +285,46 @@ const Dashboard: React.FC = () => {
           {/* Cards containing the 3 small charts */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6 mt-6 md:mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {smallCharts.map((chart, index) => (
-              <div key={index} className="bg-black p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div
+                key={index}
+                className="bg-black p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ">
                 {/* Title and icon */}
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-base md:text-lg font-semibold">{chart.title}</h2>
+                  <h2 className="text-base md:text-lg font-semibold">
+                    {chart.title}
+                  </h2>
                   {/* Toggle button */}
                   <div className="flex items-center space-x-4">
                     <button
                       onClick={() => toggleCollapse(index)}
                       className="text-white hover:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-white rounded-md p-1">
                       {isCollapsed[index] ? (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 md:h-6 md:w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
                         </svg>
                       ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 md:h-6 md:w-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor">
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 15l7-7 7 7"
+                          />
                         </svg>
                       )}
                     </button>
