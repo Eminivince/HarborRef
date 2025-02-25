@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   HomeOutlined,
   DollarOutlined,
@@ -11,6 +11,9 @@ import Logo from "../assets/Cairclebg.png";
 
 const Aside = () => {
   const [collapsed] = useState(false);
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <>
@@ -30,31 +33,41 @@ const Aside = () => {
           <ul>
             <Link
               to="/dashboard"
-              className="p-4 hover:bg-gray-700 flex items-center">
+              className={`p-4 hover:bg-gray-700 flex items-center ${
+                isActive("/dashboard") ? "bg-gray-700" : ""
+              }`}>
               <HomeOutlined className="mr-2" />
               {!collapsed && <span>Dashboard</span>}
             </Link>
             <Link
               to="/reward"
-              className="p-4 hover:bg-gray-700 flex items-center">
+              className={`p-4 hover:bg-gray-700 flex items-center ${
+                isActive("/reward") ? "bg-gray-700" : ""
+              }`}>
               <TrophyOutlined className="mr-2" />
               {!collapsed && <span>Reward</span>}
             </Link>
             <Link
               to="/stake"
-              className="p-4 hover:bg-gray-700 flex items-center">
+              className={`p-4 hover:bg-gray-700 flex items-center ${
+                isActive("/stake") ? "bg-gray-700" : ""
+              }`}>
               <DollarOutlined className="mr-2" />
               {!collapsed && <span>Stake</span>}
             </Link>
             <Link
               to="/referral"
-              className="p-4 hover:bg-gray-700 flex items-center">
+              className={`p-4 hover:bg-gray-700 flex items-center ${
+                isActive("/referral") ? "bg-gray-700" : ""
+              }`}>
               <ShareAltOutlined className="mr-2" />
               {!collapsed && <span>Referral</span>}
             </Link>
             <Link
               to="/network"
-              className="p-4 hover:bg-gray-700 flex items-center">
+              className={`p-4 hover:bg-gray-700 flex items-center ${
+                isActive("/network") ? "bg-gray-700" : ""
+              }`}>
               <TeamOutlined className="mr-2" />
               {!collapsed && <span>Your Network</span>}
             </Link>
@@ -64,19 +77,39 @@ const Aside = () => {
 
       {/* Footer Navigation for Mobile */}
       <nav className="md:hidden fixed bottom-0 left-0 w-full bg-gray-900 p-6 flex justify-around text-white">
-        <Link to="/dashboard" className="flex flex-col items-center">
+        <Link
+          to="/dashboard"
+          className={`flex flex-col items-center ${
+            isActive("/dashboard") ? "text-yellow-500 font-bold text-xl" : ""
+          }`}>
           <HomeOutlined />
         </Link>
-        <Link to="/reward" className="flex flex-col items-center">
+        <Link
+          to="/reward"
+          className={`flex flex-col items-center ${
+            isActive("/reward") ? "text-yellow-500 font-bold text-xl" : ""
+          }`}>
           <TrophyOutlined />
         </Link>
-        <Link to="/stake" className="flex flex-col items-center">
+        <Link
+          to="/stake"
+          className={`flex flex-col items-center ${
+            isActive("/stake") ? "text-yellow-500 font-bold text-xl" : ""
+          }`}>
           <DollarOutlined />
         </Link>
-        <Link to="/referral" className="flex flex-col items-center">
+        <Link
+          to="/referral"
+          className={`flex flex-col items-center ${
+            isActive("/referral") ? "text-yellow-500 font-bold text-xl" : ""
+          }`}>
           <ShareAltOutlined />
         </Link>
-        <Link to="/network" className="flex flex-col items-center">
+        <Link
+          to="/network"
+          className={`flex flex-col items-center ${
+            isActive("/network") ? "text-yellow-500 font-bold text-xl" : ""
+          }`}>
           <TeamOutlined />
         </Link>
       </nav>

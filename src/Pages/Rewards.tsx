@@ -88,10 +88,12 @@ const Rewards = () => {
 
   if (loading || isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen text-white animate-fadeIn">
+      <div className="flex justify-center items-center h-screen bg-white">
         <div className="flex flex-col items-center space-y-4">
-          <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin"></div>
-          <p className="text-xl animate-pulse">Loading data...</p>
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-black rounded-full animate-spin"></div>
+          <p className="text-black text-lg font-medium animate-pulse">
+            Loading reward data...
+          </p>
         </div>
       </div>
     );
@@ -107,7 +109,7 @@ const Rewards = () => {
         <div className="p-4 md:p-6">
           <InnerNav user={user} />
         </div>
-        <div className="max-w-2xl mx-auto mt-10 p-6 bg-gray-300 ">
+        <div className="max-w-2xl mx-auto mt-10 p-3 bg-gray-300 ">
           <h1 className="text-2xl font-bold mb-2">Invite more to earn more</h1>
           <h2 className="text-xl mb-2">Total Earnings</h2>
           <h3 className="text-3xl font-bold mb-10">${totalEarnings}</h3>
@@ -137,7 +139,7 @@ const Rewards = () => {
                     </div>
 
                     <div className="flex flex-col items-center space-x-4">
-                      <span className="md:text-xl font-semibold">
+                      <span className="md:text-xl ml-3 font-semibold">
                         ${tier.reward}
                       </span>
                       <button

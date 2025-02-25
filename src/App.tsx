@@ -41,6 +41,8 @@ const AirDAO_NETWORK = {
   },
 };
 
+import { mainnet, sepolia, polygon, optimism, arbitrum } from "wagmi/chains";
+
 const config = getDefaultConfig({
   appName: "HarborStake",
   projectId: "c4a7e569513c0a57eab30b6824f31e04",
@@ -64,7 +66,7 @@ function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
+        <RainbowKitProvider modalSize="compact" initialChain={AirDAO_NETWORK}>
           <div className="space-grotesk-font bg-[#1E1E1E]">
             <Router>
               <Routes>

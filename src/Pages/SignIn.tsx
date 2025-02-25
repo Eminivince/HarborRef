@@ -215,9 +215,19 @@ export default function SignIn() {
           <button
             onClick={handleLogin}
             disabled={loading}
-            className="w-full bg-[#FFEE52] hover:bg-amber-300
-              text-black font-semibold py-2 rounded-[999px]">
-            {loading ? "Signing In..." : "Sign In"}
+            className={`w-full font-semibold py-2 rounded-[999px] transition-all duration-200 ${
+              loading 
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-[#FFEE52] hover:bg-amber-300 active:scale-95'
+            } text-black flex items-center justify-center gap-2`}>
+            {loading ? (
+              <>
+                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+                <span>Signing In</span>
+              </>
+            ) : (
+              "Sign In"
+            )}
           </button>
 
           <div className="my-4 mt-8 text-center flex items-center justify-center gap-4">
