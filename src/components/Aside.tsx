@@ -7,7 +7,7 @@ import {
   TeamOutlined,
   TrophyOutlined,
 } from "@ant-design/icons";
-import Logo from "../assets/Harbourlogo.png";
+import Logo from "../assets/Cairclebg.png";
 
 const Aside = () => {
   const [collapsed] = useState(false);
@@ -22,7 +22,7 @@ const Aside = () => {
         <Link to="/">
           <div className="flex  items-center space-x-4 m-4 text-xl font-bold">
             <img src={Logo} alt="Logo" className="w-20" />
-            {!collapsed && <h1>Harbor</h1>}
+            {!collapsed && <h1></h1>}
           </div>
         </Link>
 
