@@ -33,38 +33,66 @@ const Stake = () => {
   if (!user) return null;
 
   return (
-    <div className="flex min-h-screen bg-white text-white">
+    <div className="flex min-h-screen bg-gray-300 text-white">
       <Aside />
       <div className="pt-6 px-4 md:px-10 w-full">
         <InnerNav user={user} />
-        <div className="text-black w-full md:w-[60%] lg:w-[40%] mx-auto text-center pt-10 md:pt-20 px-4">
+        <div className="text-black w-full md:w-[70%] lg:w-[70%] mx-auto text-center pt-10 md:pt-20 px-4">
           <p className="text-sm md:text-base">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestias
-            saepe odio dolore nisi voluptatibus nihil voluptates qui deleniti
-            neque cumque.
+            Stake your tokens to earn rewards and participate in our yield
+            farming program. Earn competitive APY while contributing to the
+            platform's liquidity and security.
           </p>
-          <div className="flex flex-col md:flex-row justify-between md:space-x-5 space-y-4 md:space-y-0 mt-6 md:mt-10">
-            <div className="bg-black text-white w-full rounded-xl p-2">
-              <div className="flex items-center justify-between mb-4">
-                <h1 className="text-xs md:text-sm">TVL</h1>
-                <h1 className="font-semibold text-sm md:text-base">$1900.87</h1>
-                <img src={upArrow} alt="" className="w-4 md:w-6" />
+          <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 mt-6 md:mt-10">
+            <div className="bg-black text-white rounded-xl p-3 sm:p-4 md:p-5 transition-transform hover:scale-105">
+              <div className="flex flex-col space-y-2 sm:space-y-3">
+                <div className="flex justify-between items-center">
+                  <h1 className="text-xs sm:text-sm md:text-base font-medium text-gray-300">
+                    TVL
+                  </h1>
+                  <img
+                    src={upArrow}
+                    alt=""
+                    className="w-3 sm:w-4 md:w-5 hover:animate-bounce"
+                  />
+                </div>
+                <h1 className="font-bold text-sm sm:text-lg md:text-2xl text-center">
+                  $1900.87
+                </h1>
               </div>
             </div>
-            <div className="bg-black text-white w-full rounded-xl p-2">
-              <div className="flex items-center justify-between mb-4">
-                <h1 className="text-xs md:text-sm">APY</h1>
-                <h1 className="font-semibold text-sm md:text-base">30%</h1>
-
-                <img src={upArrow} alt="" className="w-4 md:w-6" />
+            <div className="bg-black text-white rounded-xl p-3 sm:p-4 md:p-5 transition-transform hover:scale-105">
+              <div className="flex flex-col space-y-2 sm:space-y-3">
+                <div className="flex justify-between items-center">
+                  <h1 className="text-xs sm:text-sm md:text-base font-medium text-gray-300">
+                    APY
+                  </h1>
+                  <img
+                    src={upArrow}
+                    alt=""
+                    className="w-3 sm:w-4 md:w-5 hover:animate-bounce"
+                  />
+                </div>
+                <h1 className="font-bold text-sm sm:text-lg md:text-2xl text-center">
+                  30%
+                </h1>
               </div>
             </div>
-            <div className="bg-black text-white w-full rounded-xl p-2">
-              <div className="flex items-center justify-between mb-4">
-                <h1 className="text-xs md:text-sm">Duration</h1>
-                <h1 className="font-semibold text-sm md:text-base">30 Days</h1>
-
-                <img src={upArrow} alt="" className="w-4 md:w-6" />
+            <div className="bg-black text-white rounded-xl p-3 sm:p-4 md:p-5 transition-transform hover:scale-105">
+              <div className="flex flex-col space-y-2 sm:space-y-3">
+                <div className="flex justify-between items-center">
+                  <h1 className="text-xs sm:text-sm md:text-base font-medium text-gray-300">
+                    Duration
+                  </h1>
+                  <img
+                    src={upArrow}
+                    alt=""
+                    className="w-3 sm:w-4 md:w-5 hover:animate-bounce"
+                  />
+                </div>
+                <h1 className="font-bold text-sm sm:text-lg md:text-2xl text-center">
+                  30 Days
+                </h1>
               </div>
             </div>
           </div>
@@ -82,7 +110,7 @@ const Stake = () => {
             placeholder="Enter amount"
             className="border rounded w-full mt-6 md:mt-7 p-2 md:p-3 text-sm md:text-base"
           />
-          <button className="bg-black mt-6 md:mt-7 rounded-3xl text-white w-full p-2 md:p-3 text-sm md:text-base">
+          <button className="bg-black mt-6 md:mt-7 rounded-3xl text-white cursor-pointer hover:bg-slate-800 duration-300 w-full p-3 md:p-3 text-sm md:text-base">
             Stake Now
           </button>
         </div>

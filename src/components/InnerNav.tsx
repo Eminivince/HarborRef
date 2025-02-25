@@ -122,7 +122,7 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
               <hr className="w-[90%] mx-auto border-black" />
               <button
                 className="w-full px-4 py-2 text-left text-black hover:bg-gray-300 hover:cursor-pointer duration-300 transition-colors flex items-center gap-2"
-                onClick={() => navigate("/settings")}>
+                onClick={() => navigate("/privacy-policy")}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5"

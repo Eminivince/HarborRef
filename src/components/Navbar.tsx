@@ -45,7 +45,7 @@ const Navbar = () => {
           <motion.img
             src={Logo}
             alt="logo"
-            className="w-10 md:hidden"
+            className="w-10"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           />

@@ -1,11 +1,7 @@
 // App.tsx
 
 import { useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SignIn from "./Pages/SignIn";
 import Signup from "./Pages/SignUp";
 import Homepage from "./Pages/Homepage";
@@ -18,10 +14,12 @@ import { WagmiProvider } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Network from "./Pages/Network";
 import { useDispatch } from "react-redux";
-import { fetchUserData } from './store/thunks/authThunks';
-import type { AppDispatch } from './store/store';
+import { fetchUserData } from "./store/thunks/authThunks";
+import type { AppDispatch } from "./store/store";
 import Rewards from "./Pages/Rewards";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import axiosInstance from "./config/axiosConfig";
+import Settings from "./Pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -54,9 +52,11 @@ function App() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
+    const token = localStorage.getItem("jwtToken");
     if (token) {
-      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axiosInstance.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${token}`;
       dispatch(fetchUserData());
     }
   }, [dispatch]);
@@ -76,6 +76,8 @@ function App() {
                 <Route path="/referral" element={<Referral />} />
                 <Route path="/network" element={<Network />} />
                 <Route path="/reward" element={<Rewards />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/settings" element={<Settings />} />
               </Routes>
             </Router>
           </div>

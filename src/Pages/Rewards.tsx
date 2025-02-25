@@ -101,8 +101,10 @@ const Rewards = () => {
     <div className="flex md:h-screen min-h-screen bg-gray-300 pb-16">
       <Aside />
 
-      <main className="flex-1 p-6">
-        <InnerNav user={user} />
+      <main className="flex-1 md:p-6">
+        <div className="p-4 md:p-6">
+          <InnerNav user={user} />
+        </div>
         <div className="max-w-2xl mx-auto mt-10 p-6 bg-gray-300 ">
           <h1 className="text-2xl font-bold mb-2">Invite more to earn more</h1>
           <h2 className="text-xl mb-2">Total Earnings</h2>

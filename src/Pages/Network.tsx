@@ -151,7 +151,7 @@ const Network = () => {
       transition={{ duration: 0.4 }}>
       <div className="flex bg-white text-white min-h-screen">
         <Aside />
-        <main className="w-full mt-6 px-10">
+        <main className="w-full mt-6 px-4">
           <InnerNav user={user} />
           <section className="text-black mt-4">
             <div className="relative w-full max-w-sm mx-auto mb-8">
