@@ -115,7 +115,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="items-center h-screen bg-[#1E1E1E]">
+    <div className="items-center pt-10 md:pt-0 h-screen bg-[#1E1E1E]">
       <Navbar />
       <div className=" p-8 rounded-2xl shadow-lg w-96 mx-auto mt-10 text-white">
         <h2 className="text-2xl font-semibold mb-4 text-center">Sign Up</h2>
