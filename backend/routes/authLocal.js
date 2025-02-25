@@ -15,12 +15,19 @@ router.post("/register", async (req, res) => {
   try {
     const { username, password, email, refCode } = req.body;
 
-    // 1) Check if email is already in use
-    console.log(`[${new Date().toISOString()}] Checking for existing email: ${email}`);
-    const existingEmailUser = await User.findOne({ email });
-    if (existingEmailUser) {
-      console.log(`[${new Date().toISOString()}] Registration failed - Email already exists: ${email}`);
-      return res.status(400).json({ error: "Email is already in use" });
+    // 1) Check if email or username is already in use
+    console.log(`[${new Date().toISOString()}] Checking for existing email: ${email} and username: ${username}`);
+    const existingEmail = await User.findOne({ email });
+    const existingUsername = await User.findOne({ username });
+
+    if (existingEmail) {
+      console.log(`[${new Date().toISOString()}] Registration failed - Email already exists`);
+      return res.status(400).json({ error: 'Email is already registered' });
+    }
+
+    if (existingUsername) {
+      console.log(`[${new Date().toISOString()}] Registration failed - Username already exists`);
+      return res.status(400).json({ error: 'Username is already taken' });
     }
 
     // 2) Generate unique user_id
@@ -48,7 +55,7 @@ router.post("/register", async (req, res) => {
       if (referrer) {
         // a) Add new user to referrer's array of referrals
         referrer.referrals.push(userId);
-        console.log("refcode:".refCode);
+        console.log("refcode:", refCode);
 
         // b) Optionally increment referrer’s referral_earnings or total_ref_rev
         //    e.g. if you want to award them $10 for each referral

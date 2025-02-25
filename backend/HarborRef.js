@@ -4,6 +4,10 @@ const express = require("express");
 const passport = require("passport");
 const cors = require("cors");
 const mongoose = require("mongoose");
+
+// Import passport configuration
+require('./config/passport');
+
 const localAuthRoutes = require("./routes/authLocal");
 const googleAuthRoutes = require("./routes/authGoogle");
 const userRoutes = require("./routes/user");
@@ -56,6 +60,22 @@ app.set("trust proxy", 1);
 
 // Parse JSON bodies
 app.use(express.json());
+
+// Session middleware configuration
+const session = require('express-session');
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// Initialize Passport and restore authentication state from session
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use("/api/auth", localAuthRoutes);

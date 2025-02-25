@@ -11,16 +11,13 @@ const axiosInstance = axios.create({
 // Add auth token to requests
 axiosInstance.interceptors.request.use(
   (config) => {
-    console.log(API_BASE_URL);
+
     const token = localStorage.getItem("jwtToken");
-    console.log("Token from localStorage:", token ? "exists" : "missing");
+
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log(
-        "Setting Authorization header:",
-        `Bearer ${token.substring(0, 20)}...`
-      );
+      
     } else {
       console.log("No token found in localStorage");
     }
@@ -37,7 +34,7 @@ axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      console.log("Received 401 error, clearing token");
+
       localStorage.removeItem("jwtToken");
       // Optionally redirect to login page
       window.location.href = "/signin";

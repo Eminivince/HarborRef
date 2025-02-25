@@ -22,7 +22,6 @@ axiosInstance.interceptors.request.use(
     const token = localStorage.getItem('jwtToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log('[Axios Interceptor] Setting Authorization header:', `Bearer ${token.substring(0, 20)}...`);
     } else {
       console.log('[Axios Interceptor] No token found in localStorage');
     }

@@ -56,10 +56,14 @@ export default function SignIn() {
     // Check if this is a redirect from OAuth
     const checkOAuthAuth = async () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const isGoogleAuth = urlParams.get("google");
-      const isXAuth = urlParams.get("x");
+      const token = urlParams.get("token");
 
-      if (isGoogleAuth || isXAuth) {
+      if (token) {
+
+        // Store the token in localStorage
+        localStorage.setItem("jwtToken", token);
+        // Set the token in axios headers
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         try {
           await dispatch(fetchUserData());
           navigate("/dashboard");
@@ -75,7 +79,7 @@ export default function SignIn() {
   }, [dispatch, navigate]);
 
   useEffect(() => {
-    console.log(user);
+
     if (!initialLoad && user) {
       navigate("/dashboard");
     }
@@ -84,33 +88,31 @@ export default function SignIn() {
   const handleLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setInitialLoad(false);
-    console.log("[handleLogin] Login attempt started");
+
     const usernameOrEmail = email;
 
     if (!usernameOrEmail || !password) {
-      console.log("[handleLogin] Validation failed: Missing fields");
+
       dispatch(setError("Please fill in all fields"));
       return;
     }
 
-    console.log("[handleLogin] Validation passed, proceeding with login");
+
     dispatch(setLoading(true));
     dispatch(setError(null));
 
     try {
-      console.log("[handleLogin] Making login API request...");
+
       const res = await axios.post<ApiResponse>(
         `${API_BASE_URL}/api/auth/login`,
         { usernameOrEmail, password },
         { withCredentials: true }
       );
 
-      console.log("[handleLogin] Login API response:", res.data);
-      console.log("[handleLogin] Response status:", res.data.user);
-      // console.log("[handleLogin] Response status:", res.data.user?.user_id);
+
 
       if (res.data.message === "Logged in successfully" && res.data.user) {
-        console.log("[handleLogin] Login successful, setting user data");
+
 
         // @ts-expect-error unknown
         if (res.data.token) {
@@ -123,12 +125,9 @@ export default function SignIn() {
         } // Store the JWT token
 
         dispatch(setUser(res.data.user));
-        console.log(
-          "[handleLogin] User data set, fetching additional user data"
-        );
+        
         try {
           await dispatch(fetchUserData());
-          console.log("[handleLogin] Navigating to dashboard");
           navigate("/dashboard");
         } catch (error) {
           console.error("[handleLogin] Error fetching user data:", error);
@@ -155,7 +154,6 @@ export default function SignIn() {
         )
       );
     } finally {
-      console.log("[handleLogin] Login process completed");
       dispatch(setLoading(false));
     }
   };

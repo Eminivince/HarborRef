@@ -36,7 +36,7 @@ const Rewards = () => {
   }, [user]);
 
   const fetchEligibility = async () => {
-    console.log(user);
+
     try {
       const response = await axiosInstance.get("/api/claims/eligibility");
       setEligibleTiers(response.data.eligibleTiers);

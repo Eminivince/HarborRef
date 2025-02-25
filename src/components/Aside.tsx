@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   HomeOutlined,
@@ -19,10 +19,13 @@ const Aside = () => {
         className={`hidden md:block bg-[#1E1E1E] text-white transition-all duration-300 ${
           collapsed ? "w-20" : "w-64"
         }  min-h-screen`}>
-        <div className="flex  items-center space-x-4 m-4 text-xl font-bold">
-          <img src={Logo} alt="Logo" className="w-10" />
-          {!collapsed && <h1>Harbor</h1>}
-        </div>
+        <Link to="/">
+          <div className="flex  items-center space-x-4 m-4 text-xl font-bold">
+            <img src={Logo} alt="Logo" className="w-10" />
+            {!collapsed && <h1>Harbor</h1>}
+          </div>
+        </Link>
+
         <nav className="mt-4">
           <ul>
             <Link

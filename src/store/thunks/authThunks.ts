@@ -17,9 +17,6 @@ export const fetchUserData = createAsyncThunk(
         dispatch(setUser(null));
         return rejectWithValue('No authentication token found');
       }
-      console.log('[fetchUserData] Starting to fetch user data...');
-      console.log('[fetchUserData] Making API request to /api/user/me...');
-      console.log(axiosInstance.defaults.baseURL);
       const response = await axiosInstance.get('/api/user/me', {
         headers: {
           Authorization: `Bearer ${token}`
@@ -59,7 +56,6 @@ export const fetchUserData = createAsyncThunk(
       console.error('[fetchUserData] Unexpected error:', errorMessage);
       return rejectWithValue(errorMessage);
     } finally {
-      console.log('[fetchUserData] Request completed');
       dispatch(setLoading(false));
     }
   }
