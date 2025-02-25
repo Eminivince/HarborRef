@@ -16,7 +16,7 @@ router.get(
       environment: process.env.NODE_ENV,
       referralCode: req.query.code || 'none'
     });
-    
+    // https://harbor-r.vercel.app/auth/google/callback/
     // Store referral code in session if present
     const referralCode = req.query.code;
     if (referralCode) {
@@ -96,9 +96,14 @@ router.get(
 
         // Redirect with token
         const redirectUrl = process.env.NODE_ENV === 'production' 
-          ? `https://harbor-r.vercel.app/dashboard?token=${token}` 
-          : `http://localhost:5173/dashboard?token=${token}`;
-        
+          ? `https://harbor-r.vercel.app/signin?token=${token}` 
+          : `http://localhost:5173/signin?token=${token}`;
+
+        console.log('[Google OAuth] Redirecting with token:', {
+          redirectUrl,
+          environment: process.env.NODE_ENV
+        });
+
         res.redirect(redirectUrl);
       } catch (error) {
         console.error("Error processing authentication:", error);
