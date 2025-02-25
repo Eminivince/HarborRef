@@ -17,9 +17,14 @@ export const fetchUserData = createAsyncThunk(
         dispatch(setUser(null));
         return rejectWithValue('No authentication token found');
       }
-      const authHeader = axiosInstance.defaults.headers.common['Authorization'];
-      console.log('[fetchUserData] Authorization header:', authHeader);
-      const response = await axiosInstance.get('/api/user/me');
+      console.log('[fetchUserData] Starting to fetch user data...');
+      console.log('[fetchUserData] Making API request to /api/user/me...');
+      console.log(axiosInstance.defaults.baseURL);
+      const response = await axiosInstance.get('/api/user/me', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       dispatch(setUser(response.data));
       return response.data;
     } catch (error) {

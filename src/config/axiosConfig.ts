@@ -10,12 +10,21 @@ const axiosInstance = axios.create({
   },
 });
 
+// Initialize headers with token if it exists
+const token = localStorage.getItem('jwtToken');
+if (token) {
+  axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+}
+
 // Add a request interceptor to include the JWT token
 axiosInstance.interceptors.request.use(
   (config) => {
-    const authHeader = getAuthHeader();
-    if (authHeader.Authorization) {
-      config.headers.Authorization = authHeader.Authorization;
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+      console.log('[Axios Interceptor] Setting Authorization header:', `Bearer ${token.substring(0, 20)}...`);
+    } else {
+      console.log('[Axios Interceptor] No token found in localStorage');
     }
     return config;
   },

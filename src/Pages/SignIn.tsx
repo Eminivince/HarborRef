@@ -72,6 +72,7 @@ export default function SignIn() {
   }, [dispatch, navigate]);
 
   useEffect(() => {
+    console.log(user);
     if (!initialLoad && user) {
       navigate("/dashboard");
     }
@@ -105,10 +106,7 @@ export default function SignIn() {
       console.log("[handleLogin] Response status:", res.data.user);
       console.log("[handleLogin] Response status:", res.data.user?.user_id);
 
-      if (
-        res.data.message === "Logged in successfully" &&
-        res.data.user
-      ) {
+      if (res.data.message === "Logged in successfully" && res.data.user) {
         console.log("[handleLogin] Login successful, setting user data");
         // Store the JWT token
         if (res.data.token) {
