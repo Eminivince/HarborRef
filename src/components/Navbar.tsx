@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import Logo from "../assets/Harbourlogo.png";
+import Logo from "../assets/Cairclebg.png";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../store/slices/authSlice";
 import { removeAuthToken } from "../utils/auth";
@@ -45,7 +45,7 @@ const Navbar = () => {
           <motion.img
             src={Logo}
             alt="logo"
-            className="w-10"
+            className="w-20"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           />

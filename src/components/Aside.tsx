@@ -21,7 +21,7 @@ const Aside = () => {
         }  min-h-screen`}>
         <Link to="/">
           <div className="flex  items-center space-x-4 m-4 text-xl font-bold">
-            <img src={Logo} alt="Logo" className="w-10" />
+            <img src={Logo} alt="Logo" className="w-20" />
             {!collapsed && <h1>Harbor</h1>}
           </div>
         </Link>
