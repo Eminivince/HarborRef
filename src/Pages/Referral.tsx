@@ -75,7 +75,7 @@ const Referral: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col md:flex-row min-h-screen bg-gray-300 pb-20 text-black">
+      className="flex flex-col md:flex-row pt-20 md:pt-0 min-h-screen bg-gray-300 pb-20 text-black">
       <Aside />
 
       <motion.div

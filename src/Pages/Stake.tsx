@@ -33,7 +33,7 @@ const Stake = () => {
   if (!user) return null;
 
   return (
-    <div className="flex min-h-screen bg-gray-300 text-white">
+    <div className="flex min-h-screen pt-20 md:pt-0 bg-gray-300 text-white">
       <Aside />
       <div className="pt-6 px-4 md:px-10 w-full">
         <InnerNav user={user} />

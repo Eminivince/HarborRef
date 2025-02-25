@@ -8,7 +8,7 @@ const PrivacyPolicy = () => {
   const { user } = useSelector((state: RootState) => state.auth);
 
   return (
-    <div className="flex min-h-screen pb-20 bg-gray-300 text-white">
+    <div className="flex min-h-screen pb-20 pt-10 md:pt-0 bg-gray-300 text-white">
       <Aside />
       <div className="pt-6 px-4 md:px-10 w-full">
         <InnerNav user={user || undefined} />

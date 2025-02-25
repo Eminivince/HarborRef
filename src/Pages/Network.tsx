@@ -73,7 +73,7 @@ const Network = () => {
     const joinDate = new Date(referral.createdAt).toLocaleDateString();
 
     return (
-      <div className="ml-4">
+      <div className="">
         <motion.div
           className={`flex items-center p-4 my-2 rounded-lg ${
             level === 0 ? "bg-gray-100" : "bg-white border"
@@ -149,7 +149,7 @@ const Network = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}>
-      <div className="flex bg-white text-white min-h-screen">
+      <div className="flex bg-white pt-20 md:pt-0 text-white min-h-screen">
         <Aside />
         <main className="w-full mt-6 px-4">
           <InnerNav user={user} />
