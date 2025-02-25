@@ -7,7 +7,7 @@ import { IoMailOutline } from "react-icons/io5";
 import Navbar from "../components/Navbar";
 import { API_BASE_URL } from "../config/api";
 import { useSelector } from "react-redux";
-
+import type { RootState } from "../store/store";
 
 interface PasswordRequirements {
   minLength: boolean;
@@ -90,25 +90,27 @@ const SignUp = () => {
 
       const data = await response.json();
 
-
       if (response.ok) {
         navigate("/signin");
       } else {
-        console.error('Registration failed:', data.error);
-        dispatch(setError(data.error || 'Registration failed. Please try again.'));
+        console.error("Registration failed:", data.error);
+        dispatch(
+          setError(data.error || "Registration failed. Please try again.")
+        );
       }
+      /* eslint-disable @typescript-eslint/no-explicit-any */
     } catch (err: any) {
-      console.error('Registration error:', err);
-      let errorMessage = 'An error occurred during registration. Please try again.';
-      
+      console.error("Registration error:", err);
+      let errorMessage =
+        "An error occurred during registration. Please try again.";
+
       if (err.response?.data?.error) {
         errorMessage = err.response.data.error;
       } else if (err instanceof Error) {
         errorMessage = err.message;
       }
-      
-      dispatch(setError(errorMessage));
 
+      dispatch(setError(errorMessage));
     }
   };
 
@@ -119,8 +121,16 @@ const SignUp = () => {
         <h2 className="text-2xl font-semibold mb-4 text-center">Sign Up</h2>
         {error && (
           <div className="bg-opacity-10 border border-red-500 text-white-500 px-4 py-1 rounded relative mb-4 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500 mr-2" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 text-red-500 mr-2"
+              viewBox="0 0 20 20"
+              fill="currentColor">
+              <path
+                fillRule="evenodd"
+                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                clipRule="evenodd"
+              />
             </svg>
             <p className="text-sm">{error}!</p>
           </div>

@@ -51,27 +51,27 @@ const Dashboard: React.FC = () => {
         // First check URL parameters for token from OAuth
         const urlParams = new URLSearchParams(window.location.search);
         const urlToken = urlParams.get("token");
-        
-        if (urlToken) {
 
+        if (urlToken) {
           localStorage.setItem("jwtToken", urlToken);
-          axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${urlToken}`;
+          axiosInstance.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${urlToken}`;
         }
-    
+
         const token = localStorage.getItem("jwtToken");
-        
+
         if (!token) {
           navigate("/signin");
           return;
         }
-    
+
         // Configure axios with the token
         axiosInstance.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${token}`;
-    
-        if (!user) {
 
+        if (!user) {
           const userData = await dispatch(fetchUserData());
           // @ts-expect-error unknown
           if (userData.error) {
@@ -80,7 +80,6 @@ const Dashboard: React.FC = () => {
             navigate("/signin");
             return;
           }
-
         }
       } catch (error) {
         console.error("[Dashboard] Error in authentication check:", error);
@@ -147,6 +146,7 @@ const Dashboard: React.FC = () => {
             (sum, value) => sum + value,
             0
           );
+          console.log(totalEarnings);
         }
         break;
       case "Friends":
