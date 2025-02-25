@@ -8,6 +8,15 @@ const router = express.Router();
 router.get(
   "/google",
   (req, res, next) => {
+    // Log OAuth initialization
+    console.log('[Google OAuth] Initializing authentication:', {
+      callbackURL: process.env.NODE_ENV === 'production' 
+        ? 'https://harbor-r.vercel.app/api/auth/google/callback'
+        : 'http://localhost:3001/api/auth/google/callback',
+      environment: process.env.NODE_ENV,
+      referralCode: req.query.code || 'none'
+    });
+    
     // Store referral code in session if present
     const referralCode = req.query.code;
     if (referralCode) {
@@ -21,8 +30,32 @@ router.get(
 // Step 2: Callback from Google
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/signin" }),
+  (req, res, next) => {
+    // Log callback request details
+    console.log('[Google OAuth] Callback received:', {
+      query: req.query,
+      headers: {
+        host: req.headers.host,
+        referer: req.headers.referer
+      },
+      environment: process.env.NODE_ENV
+    });
+    next();
+  },
+  passport.authenticate("google", { 
+    failureRedirect: "/signin",
+    failureCallback: (error) => {
+      console.error('[Google OAuth] Authentication failed:', error);
+    }
+  }),
   async (req, res) => {
+    // Log successful authentication
+    console.log('[Google OAuth] Authentication successful:', {
+      userId: req.user?._id,
+      email: req.user?.email,
+      environment: process.env.NODE_ENV
+    });
+    
     // Successful authentication
     if (req.user) {
       try {

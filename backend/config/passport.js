@@ -30,6 +30,14 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        // Log OAuth strategy initialization
+        console.log('[Google OAuth] Strategy configuration:', {
+          callbackURL: google.callbackURL,
+          environment: process.env.NODE_ENV,
+          profile_id: profile.id,
+          email: profile.emails[0].value
+        });
+
         // Check if user exists with this Google ID or email
         let user = await User.findOne({
           $or: [
@@ -41,9 +49,17 @@ passport.use(
         if (user) {
           if (user.googleId === profile.id) {
             // Existing Google user, just return
+            console.log('[Google OAuth] Existing user found:', {
+              userId: user._id,
+              email: user.email
+            });
             return done(null, user);
           } else {
             // Email exists but with different auth method
+            console.log('[Google OAuth] Email exists with different auth:', {
+              email: profile.emails[0].value,
+              existingProvider: user.provider
+            });
             return done(null, false, { 
               message: 'Email already registered with different authentication method'
             });
@@ -52,6 +68,11 @@ passport.use(
 
         // If not, create new user
         const userId = 'USR_' + Date.now();
+        console.log('[Google OAuth] Creating new user:', {
+          email: profile.emails[0].value,
+          username: profile.displayName
+        });
+
         user = new User({
           provider: 'google',
           googleId: profile.id,
@@ -63,6 +84,7 @@ passport.use(
         await user.save();
         done(null, user);
       } catch (err) {
+        console.error('[Google OAuth] Strategy error:', err);
         done(err, null);
       }
     }

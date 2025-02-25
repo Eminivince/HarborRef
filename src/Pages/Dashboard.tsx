@@ -146,7 +146,7 @@ const Dashboard: React.FC = () => {
             (sum, value) => sum + value,
             0
           );
-          console.log(totalEarnings);
+          // console.log(totalEarnings);
         }
         break;
       case "Friends":
@@ -156,7 +156,9 @@ const Dashboard: React.FC = () => {
         data = {};
     }
 
-    return {
+    //glacial-river-04858-a83417b9c48e.herokuapp.com/api/auth/google
+
+    https: return {
       labels: Object.keys(data),
       datasets: [
         {

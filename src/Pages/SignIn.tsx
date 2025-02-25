@@ -42,15 +42,15 @@ export default function SignIn() {
     setInitialLoad(false);
     dispatch(setLoading(true));
     dispatch(setError(null));
+
+    console.log('[Google OAuth] Frontend initialization:', {
+      redirectUrl: `${API_BASE_URL}/api/auth/google`,
+      currentUrl: window.location.href,
+      environment: process.env.NODE_ENV
+    });
+
     window.location.href = `${API_BASE_URL}/api/auth/google`;
   };
-
-  // const handleXLogin = () => {
-  //   setInitialLoad(false);
-  //   dispatch(setLoading(true));
-  //   dispatch(setError(null));
-  //   window.location.href = `${API_BASE_URL}/api/auth/x`;
-  // };
 
   useEffect(() => {
     // Check if this is a redirect from OAuth
@@ -58,17 +58,24 @@ export default function SignIn() {
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
 
-      if (token) {
+      console.log('[Google OAuth] Frontend callback received:', {
+        hasToken: !!token,
+        currentUrl: window.location.href,
+        searchParams: Object.fromEntries(urlParams.entries())
+      });
 
+      if (token) {
         // Store the token in localStorage
         localStorage.setItem("jwtToken", token);
         // Set the token in axios headers
-        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        axiosInstance.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${token}`;
         try {
           await dispatch(fetchUserData());
           navigate("/dashboard");
         } catch (error) {
-          console.error("Error fetching user data after OAuth auth:", error);
+          console.error("[Google OAuth] Frontend error:", error);
           dispatch(setError("Failed to complete authentication"));
         }
       }
@@ -79,7 +86,6 @@ export default function SignIn() {
   }, [dispatch, navigate]);
 
   useEffect(() => {
-
     if (!initialLoad && user) {
       navigate("/dashboard");
     }
@@ -92,28 +98,21 @@ export default function SignIn() {
     const usernameOrEmail = email;
 
     if (!usernameOrEmail || !password) {
-
       dispatch(setError("Please fill in all fields"));
       return;
     }
-
 
     dispatch(setLoading(true));
     dispatch(setError(null));
 
     try {
-
       const res = await axios.post<ApiResponse>(
         `${API_BASE_URL}/api/auth/login`,
         { usernameOrEmail, password },
         { withCredentials: true }
       );
 
-
-
       if (res.data.message === "Logged in successfully" && res.data.user) {
-
-
         // @ts-expect-error unknown
         if (res.data.token) {
           // @ts-expect-error unknown
@@ -125,7 +124,7 @@ export default function SignIn() {
         } // Store the JWT token
 
         dispatch(setUser(res.data.user));
-        
+
         try {
           await dispatch(fetchUserData());
           navigate("/dashboard");
