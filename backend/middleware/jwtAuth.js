@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
-  console.log('Received Authorization Header:', authHeader);
+  // console.log('Received Authorization Header:', authHeader);
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     console.log('Invalid Authorization Header Format');

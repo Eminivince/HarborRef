@@ -188,16 +188,35 @@ const Dashboard: React.FC = () => {
         callbacks: {
           label: (tooltipItem: any) => `$${tooltipItem.raw.toFixed(2)}`,
         },
+        displayColors: false,
+        intersect: false,
+        mode: 'index',
       },
     },
     scales: {
       x: {
-        display: false,
+        display: true,
         grid: { display: false },
+        ticks: {
+          maxRotation: 45,
+          minRotation: 45,
+          color: "#ffffff",
+          font: { size: 10 },
+          maxTicksLimit: 8
+        },
       },
       y: {
-        display: false,
-        grid: { display: false },
+        display: true,
+        grid: {
+          display: true,
+          color: "rgba(255, 255, 255, 0.1)",
+          drawBorder: false,
+        },
+        ticks: {
+          color: "#ffffff",
+          font: { size: 10 },
+          callback: (value: number) => `$${value.toFixed(0)}`
+        },
       },
     },
     elements: {
@@ -213,6 +232,23 @@ const Dashboard: React.FC = () => {
         hoverRadius: 4,
       },
     },
+    interaction: {
+      intersect: false,
+      mode: 'index',
+    },
+    animation: {
+      duration: 750,
+      easing: 'easeInOutQuart',
+    },
+    layout: {
+      padding: {
+        left: 10,
+        right: 10,
+        top: 10,
+        bottom: 10
+      }
+    },
+    aspectRatio: 2,
   };
 
   // Titles for the three small charts
@@ -238,7 +274,7 @@ const Dashboard: React.FC = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}>
-      <div className="flex bg-gray-200 md:h-screen pb-20 text-white">
+      <div className="flex bg-gray-200 min-h-screen pb-20 text-white">
         <Aside />
         <main className="flex-1 p-6">
           <div className="text-white">
@@ -247,26 +283,36 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Cards containing the 3 small charts */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 w-[90%] mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6 mt-6 md:mt-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             {smallCharts.map((chart, index) => (
-              <div key={index} className="bg-black p-4 rounded-lg shadow">
+              <div key={index} className="bg-black p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
                 {/* Title and icon */}
-                <div className="flex justify-between items-center mb-2">
-                  <h2 className="text-lg font-semibold">{chart.title}</h2>
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-base md:text-lg font-semibold">{chart.title}</h2>
                   {/* Toggle button */}
-                  <button
-                    onClick={() => toggleCollapse(index)}
-                    className="bg-gray-600 text-white px-2 py-1 rounded mb-2 text-sm">
-                    {isCollapsed[index] ? "View" : "Hide"}
-                  </button>
-                  <img
-                    src={chart.iconUrl}
-                    alt="Avatar"
-                    className="mr-2 w-10 rounded-full"
-                  />
+                  <div className="flex items-center space-x-4">
+                    <button
+                      onClick={() => toggleCollapse(index)}
+                      className="text-white hover:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-white rounded-md p-1">
+                      {isCollapsed[index] ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 md:h-6 md:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                        </svg>
+                      )}
+                    </button>
+                    <img
+                      src={chart.iconUrl}
+                      alt={`${chart.title} icon`}
+                      className="w-8 h-8 md:w-10 md:h-10 rounded-full"
+                    />
+                  </div>
                 </div>
 
-                {/* Collapsible area for the chart */}
+                {/* Collapsible chart area with improved height transition */}
                 <AnimatePresence>
                   {!isCollapsed[index] && (
                     <motion.div
@@ -274,12 +320,14 @@ const Dashboard: React.FC = () => {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4 }}
+                      transition={{ duration: 0.4, ease: "easeInOut" }}
                       className="overflow-hidden">
-                      <Line
-                        data={getChartData(chart.title)}
-                        options={smallChartOptions as any}
-                      />
+                      <div className="h-[200px] md:h-[250px] lg:h-[300px]">
+                        <Line
+                          data={getChartData(chart.title)}
+                          options={smallChartOptions as any}
+                        />
+                      </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
@@ -287,17 +335,17 @@ const Dashboard: React.FC = () => {
             ))}
           </div>
 
-          {/* Bigger chart */}
+          {/* Bigger chart with improved container */}
           <motion.div
-            className="bg-white p-6 rounded-lg shadow mt-6 w-[90%] mx-auto"
+            className="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg mt-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-black">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 space-y-4 md:space-y-0">
+              <h2 className="text-lg md:text-xl font-semibold text-black">
                 Earning Statistics
               </h2>
-              <select className="bg-gray-700 text-white p-2 rounded">
+              <select className="bg-gray-700 text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-gray-700">
                 <option value="15min">15 min</option>
                 <option value="3days">3 days</option>
                 <option value="1week">1 week</option>
@@ -306,7 +354,7 @@ const Dashboard: React.FC = () => {
               </select>
             </div>
 
-            <div className="h-[400px]">
+            <div className="h-[300px] md:h-[400px] lg:h-[500px]">
               <Line
                 data={getChartData("Earnings")}
                 options={

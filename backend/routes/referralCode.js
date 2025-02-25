@@ -8,7 +8,7 @@ const User = require("../models/HarborUser");
 router.post("/referral", async (req, res) => {
   console.log(
     `[${new Date().toISOString()}] Referral code generation attempt - User ID: ${
-      req.user?._id
+      req.user?.userId
     }`
   );
   if (!req.user) {
@@ -19,7 +19,7 @@ router.post("/referral", async (req, res) => {
   }
 
   try {
-    const userDoc = await User.findById(req.user._id);
+    const userDoc = await User.findById(req.user.userId);
     if (!userDoc) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -43,7 +43,7 @@ router.post("/referral", async (req, res) => {
 
     console.log(
       `[${new Date().toISOString()}] New referral code generated for user ${
-        req.user._id
+        req.user.userId
       }: ${uniqueCode}`
     );
     return res.json({ referral_code: userDoc.referral_code });
@@ -86,7 +86,7 @@ router.get("/referrallist", async (req, res) => {
     console.log(
       `[${new Date().toISOString()}] Retrieved ${
         referredUsers.length
-      } referrals for user ${req.user._id}`
+      } referrals for user ${req.user.userId}`
     );
     return res.json(referredUsers);
   } catch (error) {
