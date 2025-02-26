@@ -186,6 +186,7 @@ const Dashboard: React.FC = () => {
             (sum, value) => sum + value,
             0
           );
+          console.log(totalEarnings);
         }
         break;
       case "Friends":
@@ -196,12 +197,12 @@ const Dashboard: React.FC = () => {
     }
 
     // Format dates for display
-    const formattedLabels = Object.keys(data).map(date => {
+    const formattedLabels = Object.keys(data).map((date) => {
       if (type === "Friends") return date; // Skip date formatting for Friends data
       const dateObj = new Date(date);
-      return dateObj.toLocaleDateString('en-US', { 
-        month: 'short', 
-        day: 'numeric' 
+      return dateObj.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
       });
     });
 
