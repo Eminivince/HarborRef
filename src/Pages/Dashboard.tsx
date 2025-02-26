@@ -71,6 +71,18 @@ const Dashboard: React.FC = () => {
     true,
     true,
   ]);
+  const [chartHeight, setChartHeight] = useState<number>(
+    window.innerWidth < 640 ? 200 : 300
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setChartHeight(window.innerWidth < 640 ? 150 : 300);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Handle authentication and navigation
   useEffect(() => {
@@ -283,7 +295,7 @@ const Dashboard: React.FC = () => {
   // Titles for the three small charts
   const smallCharts = [
     {
-      title: "Earnings",
+      title: "Stake",
       iconUrl:
         "https://img.icons8.com/?size=100&id=20749&format=png&color=000000",
     },
@@ -314,18 +326,18 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Cards containing the 3 small charts */}
-          <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6 mt-6 md:mt-20 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 md:gap-6 mt-6 md:mt-20 mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
             {smallCharts.map((chart, index) => (
               <div
                 key={index}
-                className="bg-black p-4 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 ">
+                className="bg-black p-2 md:p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 w-full">
                 {/* Title and icon */}
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex justify-between items-center mb-2 md:mb-4">
                   <h2 className="text-base md:text-lg font-semibold">
                     {chart.title}
                   </h2>
                   {/* Toggle button */}
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center space-x-2 md:space-x-4">
                     <button
                       onClick={() => toggleCollapse(index)}
                       className="text-white hover:text-gray-300 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black focus:ring-white rounded-md p-1">
@@ -376,8 +388,8 @@ const Dashboard: React.FC = () => {
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.4, ease: "easeInOut" }}
-                      className="overflow-hidden">
-                      <div className="h-[200px] md:h-[250px] lg:h-[300px]">
+                      className="overflow-hidden w-full">
+                      <div className="w-full" style={{ height: chartHeight }}>
                         <Line
                           data={getChartData(chart.title)}
                           options={smallChartOptions as any}
@@ -392,11 +404,11 @@ const Dashboard: React.FC = () => {
 
           {/* Bigger chart with improved container */}
           <motion.div
-            className="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg z-0 mt-6 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
+            className="bg-white p-2 md:p-6 lg:p-8 rounded-lg shadow-lg z-0 mt-6 mx-auto max-w-7xl px-2 sm:px-4 lg:px-8 w-full"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}>
-            <div className="flex  justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-4 w-full">
               <h2 className="md:text-xl font-semibold text-black">
                 Earning Statistics
               </h2>
@@ -409,14 +421,16 @@ const Dashboard: React.FC = () => {
               </select>
             </div>
 
-            <div className="h-[300px] md:h-[400px] lg:h-[500px]">
+            <div className="w-full" style={{ height: chartHeight }}>
               <Line
                 data={{
                   ...getChartData("Earnings"),
-                  datasets: [{
-                    ...getChartData("Earnings").datasets[0],
-                    borderColor: "#000000"
-                  }]
+                  datasets: [
+                    {
+                      ...getChartData("Earnings").datasets[0],
+                      borderColor: "#000000",
+                    },
+                  ],
                 }}
                 options={
                   {
