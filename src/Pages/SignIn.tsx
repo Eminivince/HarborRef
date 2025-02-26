@@ -43,10 +43,10 @@ export default function SignIn() {
     dispatch(setLoading(true));
     dispatch(setError(null));
 
-    console.log('[Google OAuth] Frontend initialization:', {
+    console.log("[Google OAuth] Frontend initialization:", {
       redirectUrl: `${API_BASE_URL}/api/auth/google`,
       currentUrl: window.location.href,
-      environment: process.env.NODE_ENV
+      environment: process.env.NODE_ENV,
     });
 
     window.location.href = `${API_BASE_URL}/api/auth/google`;
@@ -58,10 +58,10 @@ export default function SignIn() {
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get("token");
 
-      console.log('[Google OAuth] Frontend callback received:', {
+      console.log("[Google OAuth] Frontend callback received:", {
         hasToken: !!token,
         currentUrl: window.location.href,
-        searchParams: Object.fromEntries(urlParams.entries())
+        searchParams: Object.fromEntries(urlParams.entries()),
       });
 
       if (token) {
@@ -214,13 +214,13 @@ export default function SignIn() {
 
           <button
             onClick={handleLogin}
-            disabled={loading}
+            disabled={initialLoad || loading}
             className={`w-full font-semibold py-2 rounded-[999px] transition-all duration-200 ${
-              loading 
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-[#FFEE52] hover:bg-amber-300 active:scale-95'
+              initialLoad
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[#FFEE52] hover:bg-amber-300 active:scale-95"
             } text-black flex items-center justify-center gap-2`}>
-            {loading ? (
+            {initialLoad ? (
               <>
                 <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
                 <span>Signing In</span>

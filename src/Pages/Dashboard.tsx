@@ -25,6 +25,34 @@ import InnerNav from "../components/InnerNav";
 //   [key: string]: any;
 // }
 
+const dummyData: ChartData = {
+  earnings_over_time: {
+    "2024-01-01": 1000,
+    "2024-01-02": 1500,
+    "2024-01-03": 1200,
+    "2024-01-04": 2000,
+    "2024-01-05": 1800,
+    "2024-01-06": 2500,
+    "2024-01-07": 3000,
+  },
+  stake_amount_over_time: {
+    "2024-01-01": 5000,
+    "2024-01-02": 5500,
+    "2024-01-03": 6000,
+    "2024-01-04": 5800,
+    "2024-01-05": 6500,
+    "2024-01-06": 7000,
+    "2024-01-07": 7500,
+  },
+  friends_earnings: {
+    "Friend 1": 1200,
+    "Friend 2": 1500,
+    "Friend 3": 800,
+    "Friend 4": 2000,
+    "Friend 5": 1600,
+  },
+};
+
 interface ChartData {
   earnings_over_time: Record<string, number>;
   stake_amount_over_time: Record<string, number>;
@@ -95,10 +123,11 @@ const Dashboard: React.FC = () => {
     const fetchChartData = async () => {
       if (!user) return;
       try {
-        const response = await axiosInstance.get<ChartData>(
-          "/api/user/chart-data"
-        );
-        setChartData(response.data);
+        // const response = await axiosInstance.get<ChartData>(
+        //   "/api/user/chart-data"
+        // );
+        // setChartData(response.data);
+        setChartData(dummyData);
       } catch (error) {
         console.error("Error fetching chart data:", error);
       } finally {
@@ -183,7 +212,7 @@ const Dashboard: React.FC = () => {
         backgroundColor: "rgba(0, 0, 0, 0.8)",
         titleColor: "#fff",
         bodyColor: "#fff",
-        padding: 12,
+        padding: 5,
         cornerRadius: 8,
         callbacks: {
           label: (tooltipItem: any) => `$${tooltipItem.raw.toFixed(2)}`,
@@ -196,7 +225,7 @@ const Dashboard: React.FC = () => {
     scales: {
       x: {
         display: true,
-        grid: { display: false },
+        grid: { display: true },
         ticks: {
           maxRotation: 45,
           minRotation: 45,
@@ -367,8 +396,8 @@ const Dashboard: React.FC = () => {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, ease: "easeOut" }}>
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 space-y-4 md:space-y-0">
-              <h2 className="text-lg md:text-xl font-semibold text-black">
+            <div className="flex  justify-between items-center mb-4">
+              <h2 className="md:text-xl font-semibold text-black">
                 Earning Statistics
               </h2>
               <select className="bg-gray-700 text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-gray-700">
@@ -382,7 +411,13 @@ const Dashboard: React.FC = () => {
 
             <div className="h-[300px] md:h-[400px] lg:h-[500px]">
               <Line
-                data={getChartData("Earnings")}
+                data={{
+                  ...getChartData("Earnings"),
+                  datasets: [{
+                    ...getChartData("Earnings").datasets[0],
+                    borderColor: "#000000"
+                  }]
+                }}
                 options={
                   {
                     ...smallChartOptions,

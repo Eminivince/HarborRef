@@ -56,7 +56,7 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
   };
 
   return (
-    <div className="flex items-center justify-between md:relative fixed top-0 left-0 right-0 bg-white z-50 px-4 rounded-b-lg py-2 shadow-md ">
+    <div className="flex items-center justify-between md:relative fixed top-0 left-0 right-0 bg-white z-50 px-3 rounded-b-lg py-2 shadow-md ">
       {/* <ConnectButton accountStatus="full" showBalance={false} /> */}
       <img src={Logo} alt="Logo" className="w-20" />
       <div className="relative">
@@ -78,9 +78,9 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-2 z-50">
+              className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl py-3 z-50 border border-gray-100 backdrop-blur-sm bg-opacity-95">
               <button
-                className="w-full px-4 py-2 text-left text-black hover:bg-gray-300 hover:cursor-pointer duration-300 transition-colors flex items-center gap-2"
+                className="w-full px-4 py-2 text-left text-black hover:bg-gray-300 hover:cursor-pointer duration-300 transition-colors flex items-center gap-2 mb-2 focus:bg-slate-400 rounded-lg "
                 onClick={() => navigate("/settings")}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +104,7 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
                 Settings
               </button>
               <button
-                className="w-full px-4 py-2 text-left text-black hover:bg-gray-300 hover:cursor-pointer duration-300 transition-colors flex items-center gap-2"
+                className="w-full px-4 py-2 text-left text-black hover:bg-gray-300 hover:cursor-pointer duration-300 transition-colors flex items-center gap-2 mb-2 focus:bg-slate-400 rounded-lg "
                 onClick={() => navigate("/privacy-policy")}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +125,7 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
               <hr className="w-[90%] mx-auto border-black" />
 
               <button
-                className="w-full px-4 py-2 text-left text-black hover:bg-gray-300 hover:cursor-pointer duration-300 transition-colors flex items-center gap-2"
+                className="w-full px-4 py-2 text-left text-black hover:bg-gray-300 hover:cursor-pointer duration-300 transition-colors flex items-center gap-2 mb-2 focus:bg-slate-400 rounded-lg "
                 onClick={() => navigate("/settings")}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +143,7 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
                 About
               </button>
               <button
-                className="w-full px-4 py-2 text-left text-black hover:bg-gray-300 hover:cursor-pointer duration-300 transition-colors flex items-center gap-2"
+                className="w-full px-4 py-2 text-left text-black hover:bg-gray-300 hover:cursor-pointer duration-300 transition-colors flex items-center gap-2 mb-3 focus:bg-slate-400 rounded-lg "
                 onClick={handleLogout}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +160,7 @@ const InnerNav: React.FC<InnerNavProps> = ({ user }) => {
                 </svg>
                 Logout
               </button>
-              <div className="w-fit mx-auto">
+              <div className="w-fit mx-auto mb-3">
                 <ConnectButton accountStatus="full" showBalance={false} />
               </div>
             </motion.div>
