@@ -180,14 +180,12 @@ const Dashboard: React.FC = () => {
         break;
       case "Earnings":
         data = chartData.earnings_over_time;
-
-        // Calculate and log total earnings
+        // Calculate total earnings
         {
           totalEarnings = Object.values(chartData.earnings_over_time).reduce(
             (sum, value) => sum + value,
             0
           );
-          console.log(totalEarnings);
         }
         break;
       case "Friends":
@@ -197,10 +195,18 @@ const Dashboard: React.FC = () => {
         data = {};
     }
 
-    //glacial-river-04858-a83417b9c48e.herokuapp.com/api/auth/google
+    // Format dates for display
+    const formattedLabels = Object.keys(data).map(date => {
+      if (type === "Friends") return date; // Skip date formatting for Friends data
+      const dateObj = new Date(date);
+      return dateObj.toLocaleDateString('en-US', { 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    });
 
     return {
-      labels: Object.keys(data),
+      labels: formattedLabels,
       datasets: [
         {
           label: `${type} (USD)`,
